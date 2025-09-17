@@ -12,7 +12,7 @@ spec:
       labels:
         app: fitness-tracker-app
       annotations:
-        ad.datadoghq.com/fitness-tracker-app.logs: '[{"source":"nodejs","service":"fitness-tracker-app"}]'
+        ad.datadoghq.com/fitness-tracker-app.logs: '[{"source":"nodejs","service":"fitness-tracker-serivice"}]'
     spec:
       containers:
       - name: fitness-tracker-app

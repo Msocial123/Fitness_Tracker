@@ -14,7 +14,7 @@ pipeline {
             steps {
                 git credentialsId: 'github_credentials',
                     branch: 'master',
-                    url: 'https://github.com/Pulkitsriv/Fitness-Tracker.git'
+                    url: 'https://github.com/Pulkitsriv/Fitness_Tra.git'
             }
         }
 

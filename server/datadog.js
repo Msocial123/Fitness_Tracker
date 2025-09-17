@@ -10,15 +10,36 @@ const tracer = require('dd-trace').init({
 // Enhanced console logging for Datadog
 const originalLog = console.log;
 const originalError = console.error;
+const originalWarn = console.warn;
 
 console.log = function(...args) {
-  const message = args.join(' ');
-  originalLog(`{"level":"info","message":"${message}","timestamp":"${new Date().toISOString()}","service":"fitness-tracker"}`);
+  const message = args.join(' ').replace(/"/g, '\"');
+  originalLog(JSON.stringify({
+    level: 'info',
+    message: message,
+    timestamp: new Date().toISOString(),
+    service: 'fitness-tracker'
+  }));
 };
 
 console.error = function(...args) {
-  const message = args.join(' ');
-  originalError(`{"level":"error","message":"${message}","timestamp":"${new Date().toISOString()}","service":"fitness-tracker"}`);
+  const message = args.join(' ').replace(/"/g, '\"');
+  originalError(JSON.stringify({
+    level: 'error',
+    message: message,
+    timestamp: new Date().toISOString(),
+    service: 'fitness-tracker'
+  }));
+};
+
+console.warn = function(...args) {
+  const message = args.join(' ').replace(/"/g, '\"');
+  originalLog(JSON.stringify({
+    level: 'warn',
+    message: message,
+    timestamp: new Date().toISOString(),
+    service: 'fitness-tracker'
+  }));
 };
 
 // Helper function for structured logging

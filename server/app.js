@@ -20,8 +20,18 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/fitnes
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(MONGODB_URI);
+    logger.info('Database connection established', {
+      host: conn.connection.host,
+      database: conn.connection.name,
+      action: 'mongodb_connected'
+    });
     console.log(`✅ Connected to MongoDB: ${conn.connection.host}`);
   } catch (err) {
+    logger.error('Database connection failed', {
+      error: err.message,
+      mongoUri: MONGODB_URI.replace(/\/\/.*@/, '//***:***@'), // Hide credentials
+      action: 'mongodb_connection_failed'
+    });
     console.error('❌ MongoDB connection error:', err.message);
     // Retry connection after 5 seconds
     setTimeout(connectDB, 5000);
@@ -69,6 +79,13 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 app.listen(PORT, HOST, () => {
+  logger.info('Server started successfully', {
+    host: HOST,
+    port: PORT,
+    environment: process.env.NODE_ENV || 'development',
+    database: MONGODB_URI.replace(/\/\/.*@/, '//***:***@'),
+    action: 'server_started'
+  });
   console.log(`🚀 Server running on http://${HOST}:${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🗄️  Database: ${MONGODB_URI}`);

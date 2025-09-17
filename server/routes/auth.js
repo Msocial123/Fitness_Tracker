@@ -257,10 +257,27 @@ router.post('/log-workout', async (req, res) => {
 
 // Get workouts for progress page
 router.get('/workouts/:email', async (req, res) => {
+  logger.info('Fetching workouts', {
+    email: req.params.email,
+    action: 'workouts_fetch_started'
+  });
+  
   try {
     const workouts = await Workout.find({ email: req.params.email });
+    
+    logger.info('Workouts fetched successfully', {
+      email: req.params.email,
+      workoutsCount: workouts.length,
+      action: 'workouts_fetched'
+    });
+    
     res.json({ success: true, workouts });
   } catch (err) {
+    logger.error('Workouts fetch error', {
+      email: req.params.email,
+      error: err.message,
+      action: 'workouts_fetch_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
@@ -320,40 +337,98 @@ router.post('/metrics', async (req, res) => {
 
 // Get metrics for progress page
 router.get('/metrics/:email', async (req, res) => {
+  logger.info('Fetching metrics', {
+    email: req.params.email,
+    action: 'metrics_fetch_started'
+  });
+  
   try {
     const metrics = await Metrics.find({ email: req.params.email });
+    
+    logger.info('Metrics fetched successfully', {
+      email: req.params.email,
+      metricsCount: metrics.length,
+      action: 'metrics_fetched'
+    });
+    
     res.json({ success: true, metrics });
   } catch (err) {
+    logger.error('Metrics fetch error', {
+      email: req.params.email,
+      error: err.message,
+      action: 'metrics_fetch_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 
 // Assign a new plan
 router.post('/plans', async (req, res) => {
-  console.log('Plan assignment request received:', req.body);
   const { trainer, client, plan } = req.body;
+  
+  logger.info('Plan assignment attempt', {
+    trainer,
+    client,
+    planLength: plan?.length || 0,
+    action: 'plan_assignment_started'
+  });
+  
   if (!trainer || !client || !plan) {
-    console.log('Missing required fields for plan:', { trainer, client, plan });
+    logger.warn('Plan assignment failed - missing fields', {
+      trainer,
+      client,
+      hasPlan: !!plan,
+      action: 'plan_assignment_validation_failed'
+    });
     return res.status(400).json({ msg: 'All fields are required' });
   }
+  
   try {
     const newPlan = new Plan({ trainer, client, plan });
-    console.log('Attempting to save plan:', newPlan);
     await newPlan.save();
-    console.log('Plan saved successfully');
+    
+    logger.info('Plan assigned successfully', {
+      trainer,
+      client,
+      planId: newPlan._id.toString(),
+      action: 'plan_assigned'
+    });
+    
     res.json({ success: true, msg: 'Plan assigned' });
   } catch (err) {
-    console.error('Error saving plan:', err);
+    logger.error('Plan assignment error', {
+      trainer,
+      client,
+      error: err.message,
+      action: 'plan_assignment_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
 
 // Get all plans assigned by a trainer
 router.get('/plans/:trainer', async (req, res) => {
+  logger.info('Fetching trainer plans', {
+    trainer: req.params.trainer,
+    action: 'trainer_plans_fetch_started'
+  });
+  
   try {
     const plans = await Plan.find({ trainer: req.params.trainer });
+    
+    logger.info('Trainer plans fetched successfully', {
+      trainer: req.params.trainer,
+      plansCount: plans.length,
+      action: 'trainer_plans_fetched'
+    });
+    
     res.json({ success: true, plans });
   } catch (err) {
+    logger.error('Trainer plans fetch error', {
+      trainer: req.params.trainer,
+      error: err.message,
+      action: 'trainer_plans_fetch_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
@@ -381,7 +456,10 @@ router.delete('/plans/:id', async (req, res) => {
 
 // Test endpoint to verify server connectivity
 router.post('/test', (req, res) => {
-  console.log('TEST ENDPOINT HIT - Request body:', req.body);
+  logger.info('Test endpoint accessed', {
+    requestBody: req.body,
+    action: 'test_endpoint_hit'
+  });
   res.json({ success: true, msg: 'Test endpoint working', receivedData: req.body });
 });
 

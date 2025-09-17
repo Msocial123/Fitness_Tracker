@@ -3,6 +3,8 @@ services:
     build: .
     ports:
       - "5000:5000"
+    labels:
+      com.datadoghq.ad.logs: '[{"source":"nodejs","service":"fitness-tracker"}]'
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongodb:27017/fitness-tracker
@@ -11,6 +13,7 @@ services:
       - DD_SERVICE=fitness-tracker
       - DD_ENV=production
       - DD_VERSION=1.0.0
+      - DD_LOGS_INJECTION=true
     depends_on:
       - mongodb
       - datadog-agent

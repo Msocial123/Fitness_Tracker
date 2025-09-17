@@ -204,12 +204,24 @@ router.post('/login', async (req, res) => {
 
 // Log workout
 router.post('/log-workout', async (req, res) => {
-  console.log('Log workout request received:', req.body);
   const { email, type, duration, calories, date, notes } = req.body;
+  
+  logger.info('Workout logging attempt', {
+    email,
+    type,
+    duration,
+    calories,
+    action: 'workout_log_started'
+  });
+  
   if (!email || !type || !duration || !calories || !date) {
-    console.log('Missing required fields for workout:', { email, type, duration, calories, date });
+    logger.warn('Workout logging failed - missing fields', {
+      email,
+      missingFields: { email: !email, type: !type, duration: !duration, calories: !calories, date: !date }
+    });
     return res.status(400).json({ msg: 'All required fields are missing' });
   }
+  
   try {
     const workout = new Workout({ 
       email, 
@@ -219,12 +231,26 @@ router.post('/log-workout', async (req, res) => {
       date,
       notes: notes || ''
     });
-    console.log('Attempting to save workout:', workout);
+    
     await workout.save();
-    console.log('Workout saved successfully');
+    
+    logger.info('Workout logged successfully', {
+      email,
+      type,
+      duration: parseInt(duration),
+      calories: parseInt(calories),
+      action: 'workout_logged',
+      workoutId: workout._id.toString()
+    });
+    
     res.json({ success: true, msg: 'Workout logged' });
   } catch (err) {
-    console.error('Error saving workout:', err);
+    logger.error('Workout logging error', {
+      email,
+      type,
+      error: err.message,
+      action: 'workout_log_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });
@@ -241,12 +267,25 @@ router.get('/workouts/:email', async (req, res) => {
 
 // Store metrics
 router.post('/metrics', async (req, res) => {
-  console.log('Metrics request received:', req.body);
   const { email, date, weight, bmi, fat } = req.body;
+  
+  logger.info('Metrics storage attempt', {
+    email,
+    date,
+    weight,
+    bmi,
+    fat: fat || 0,
+    action: 'metrics_storage_started'
+  });
+  
   if (!email || !date || !weight || !bmi) {
-    console.log('Missing required fields for metrics:', { email, date, weight, bmi, fat });
+    logger.warn('Metrics storage failed - missing fields', {
+      email,
+      missingFields: { email: !email, date: !date, weight: !weight, bmi: !bmi }
+    });
     return res.status(400).json({ msg: 'All required fields must be provided' });
   }
+  
   try {
     const metrics = new Metrics({ 
       email, 
@@ -255,12 +294,26 @@ router.post('/metrics', async (req, res) => {
       bmi, 
       fat: fat || 0 
     });
-    console.log('Attempting to save metrics:', metrics);
+    
     await metrics.save();
-    console.log('Metrics saved successfully');
+    
+    logger.info('Metrics stored successfully', {
+      email,
+      date,
+      weight,
+      bmi,
+      fat: fat || 0,
+      action: 'metrics_stored',
+      metricsId: metrics._id.toString()
+    });
+    
     res.json({ success: true, msg: 'Metrics updated' });
   } catch (err) {
-    console.error('Error saving metrics:', err);
+    logger.error('Metrics storage error', {
+      email,
+      error: err.message,
+      action: 'metrics_storage_failed'
+    });
     res.status(500).json({ msg: 'Server error', error: err.message });
   }
 });

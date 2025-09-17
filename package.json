@@ -1,0 +1,39 @@
+{
+  "name": "fitness-tracker",
+  "version": "1.0.0",
+  "description": "A comprehensive fitness tracking application for users and trainers",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js",
+    "install-server": "cd server && npm install",
+    "setup": "npm run install-server",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker:build": "docker build -t fitness-tracker .",
+    "docker:run": "docker run -p 5000:5000 --env-file .env fitness-tracker",
+    "docker:stop": "docker stop fitness-tracker-app || true",
+    "docker:remove": "docker rm fitness-tracker-app || true",
+    "docker:clean": "npm run docker:stop && npm run docker:remove",
+    "compose:up": "docker-compose up -d",
+    "compose:down": "docker-compose down",
+    "compose:logs": "docker-compose logs -f",
+    "compose:build": "docker-compose build",
+    "compose:restart": "docker-compose restart",
+    "compose:clean": "docker-compose down -v --rmi all",
+    "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "docker:prod": "docker-compose -f docker-compose.yml up -d"
+  },
+  "keywords": ["fitness", "tracker", "health", "workout", "metrics"],
+  "author": "Pulkit Srivastava",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/fitness-tracker.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

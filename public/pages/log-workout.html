@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Log your daily workouts and track your fitness progress with FitTrack Pro" />
+  <title>Log Workout - FitTrack Pro</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-brand">
+          <i class="fas fa-dumbbell"></i>
+          <span>FitTrack Pro</span>
+        </a>
+        
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="log-workout.html" class="nav-link active">Log Workout</a></li>
+          <li><a href="track-metrics.html" class="nav-link">Track Metrics</a></li>
+          <li><a href="progress.html" class="nav-link">Progress</a></li>
+          <li><a href="trainer-panel.html" class="nav-link">Trainer Panel</a></li>
+          
+          <li class="nav-user">
+            <i id="user-photo" class="nav-user-avatar fas fa-user" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-color);"></i>
+            <div id="logout-menu" class="nav-user-dropdown">
+              <div class="nav-user-dropdown-item" id="user-name-display">
+                <i class="fas fa-user"></i>
+                <span>User</span>
+              </div>
+              <div class="nav-user-dropdown-divider"></div>
+              <button class="nav-user-dropdown-item danger" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Workout Logging Section -->
+    <section class="registration" style="padding-top: calc(var(--header-height) + var(--spacing-xl));">
+      <div class="container">
+        <div class="registration-content">
+          <div class="registration-info">
+            <h2>Log Your Workout</h2>
+            <p>Track your daily exercises and monitor your fitness progress with detailed workout logging.</p>
+            
+            <div class="dashboard-card">
+              <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">
+                  <i class="fas fa-chart-line"></i>
+                  Quick Stats
+                </h3>
+              </div>
+              <div class="dashboard-stat">
+                <div class="dashboard-stat-value" id="total-workouts">-</div>
+                <div class="dashboard-stat-label">Total Workouts</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="registration-form-container">
+            <div class="form-card">
+              <div class="form-header">
+                <h3>Record Your Workout</h3>
+                <p>Enter the details of your workout session</p>
+              </div>
+              
+              <form class="registration-form" id="workout-form">
+                <div class="form-group">
+                  <label for="workout-type">Workout Type</label>
+                  <input type="text" id="workout-type" name="workout-type" required placeholder="e.g., Running, Weight Training, Yoga">
+                  <div class="form-error" id="workout-type-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="duration">Duration (minutes)</label>
+                  <input type="number" id="duration" name="duration" required min="1" max="600" placeholder="e.g., 45">
+                  <div class="form-error" id="duration-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="calories">Calories Burned</label>
+                  <input type="number" id="calories" name="calories" required min="1" max="2000" placeholder="e.g., 300">
+                  <div class="form-error" id="calories-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="workout-notes">Notes (optional)</label>
+                  <textarea id="workout-notes" name="workout-notes" placeholder="Add any additional notes about your workout..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block btn-large">
+                  <i class="fas fa-plus-circle"></i>
+                  Log Workout
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-dumbbell"></i>
+              <span>FitTrack Pro</span>
+            </div>
+            <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="log-workout.html">Log Workout</a></li>
+              <li><a href="track-metrics.html">Track Metrics</a></li>
+              <li><a href="progress.html">Progress</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <div class="contact-info">
+              <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script>
+    // Simple workout logging functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Workout page loaded');
+      
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      console.log('Current user:', user);
+      
+      if (!user) {
+        alert('Please log in first');
+        window.location.href = '/pages/login.html';
+        return;
+      }
+      
+      // Update user display
+      const userDisplay = document.getElementById('user-name-display');
+      if (userDisplay) {
+        userDisplay.innerHTML = `
+          <i class="fas fa-user"></i>
+          <span>${user.fullname}</span>
+        `;
+      }
+      
+      // Load workout stats
+      loadWorkoutStats();
+      
+      // Handle form submission
+      const form = document.getElementById('workout-form');
+      if (form) {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          console.log('Form submitted');
+          
+          const workoutType = document.getElementById('workout-type').value.trim();
+          const duration = document.getElementById('duration').value;
+          const calories = document.getElementById('calories').value;
+          const notes = document.getElementById('workout-notes').value.trim();
+          
+          // Basic validation
+          if (!workoutType || !duration || !calories) {
+            alert('Please fill in all required fields');
+            return;
+          }
+          
+          const workoutData = {
+            type: workoutType,
+            duration: parseInt(duration),
+            calories: parseInt(calories),
+            date: new Date().toLocaleDateString(),
+            email: user.email,
+            notes: notes
+          };
+          
+          console.log('Sending workout data:', workoutData);
+          
+          const submitButton = form.querySelector('button[type="submit"]');
+          submitButton.disabled = true;
+          submitButton.textContent = 'Saving...';
+          
+          try {
+            const response = await fetch('/api/auth/log-workout', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(workoutData)
+            });
+            
+            console.log('Response status:', response.status);
+            const result = await response.json();
+            console.log('Response data:', result);
+            
+            if (response.ok && result.success) {
+              alert('Workout logged successfully!');
+              form.reset();
+              loadWorkoutStats();
+            } else {
+              alert('Error: ' + (result.msg || result.error || 'Failed to save workout'));
+            }
+          } catch (error) {
+            console.error('Network error:', error);
+            alert('Network error: ' + error.message);
+          } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = `
+              <span class="btn-text">
+                <i class="fas fa-plus-circle"></i>
+                Log Workout
+              </span>
+            `;
+          }
+        });
+      }
+    });
+    
+    async function loadWorkoutStats() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return;
+      
+      try {
+        const response = await fetch(`/api/auth/workouts/${user.email}`);
+        const result = await response.json();
+        console.log('Workout stats:', result);
+        
+        if (response.ok && result.success) {
+          const totalWorkouts = result.workouts ? result.workouts.length : 0;
+          const totalWorkoutsElement = document.getElementById('total-workouts');
+          if (totalWorkoutsElement) {
+            totalWorkoutsElement.textContent = totalWorkouts;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading workout stats:', error);
+      }
+    }
+  </script>
+</body>
+</html>

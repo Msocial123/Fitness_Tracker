@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Professional fitness tracker to monitor your workouts, track metrics, and achieve your fitness goals" />
+    <title>FitTrack Pro - Your Personal Fitness Companion</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>FitTrack Pro</span>
+                </div>
+                
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="/pages/login.html" class="nav-link">Login</a></li>
+                    <li><a href="#register" class="nav-link btn-primary">Get Started</a></li>
+                </ul>
+                
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Transform Your Fitness Journey</h1>
+                    <p class="hero-subtitle">Track workouts, monitor progress, and achieve your goals with our comprehensive fitness platform designed for everyone.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>1000+</strong>
+                                <span>Active Users</span>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <strong>50K+</strong>
+                                <span>Workouts Tracked</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <a href="#register" class="btn btn-primary btn-large">
+                            <i class="fas fa-rocket"></i>
+                            Start Your Journey
+                        </a>
+                        <a href="#features" class="btn btn-secondary btn-large">
+                            <i class="fas fa-play"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="dashboard-preview">
+                        <div class="preview-card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar"></i>
+                                <h3>Weekly Progress</h3>
+                            </div>
+                            <div class="progress-bars">
+                                <div class="progress-item">
+                                    <span>Cardio</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Strength</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                                <div class="progress-item">
+                                    <span>Yoga</span>
+                                    <div class="progress-bar">
+                                        <div class="progress" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Everything You Need to Succeed</h2>
+                    <p>Comprehensive tools designed to help you reach your fitness goals</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>Workout Logging</h3>
+                        <p>Track your daily workouts with detailed metrics including type, duration, and calories burned.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Progress Analytics</h3>
+                        <p>Visualize your progress with interactive charts and comprehensive performance insights.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Health Metrics</h3>
+                        <p>Monitor key health indicators including weight, BMI, and body fat percentage over time.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Personal Training</h3>
+                        <p>Connect with certified trainers who can create personalized workout plans for your goals.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Mobile Friendly</h3>
+                        <p>Access your fitness data anywhere with our fully responsive web application.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Secure & Private</h3>
+                        <p>Your health data is protected with enterprise-grade security and privacy measures.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Choose Your Plan</h2>
+                    <p>Flexible pricing options to suit your fitness journey</p>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <div class="plan-badge">Basic</div>
+                        <div class="plan-price">
+                            <span class="currency">₹</span>
+                            <span class="amount">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Workout logging</li>
+                            <li><i class="fas fa-check"></i> Basic progress tracking</li>
+                            <li><i class="fas fa-check"></i> Mobile access</li>
+                            <li><i class="fas fa-times"></i> Personal trainer access</li>
+                            <li><i class="fas fa-times"></i> Advanced analytics</li>
+                        </ul>
+                        <a href="#register" class="btn btn-secondary btn-block">Get Started Free</a>
+                    </div>
+                    
+                    <div class="pricing-card popular">
+                        <div class="plan-badge">Pro</div>
+                        <div class="plan-price">
+                            <span class="currency">₹</span>
+                            <span class="amount">499</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Everything in Basic</li>
+                            <li><i class="fas fa-check"></i> Personal trainer access</li>
+                            <li><i class="fas fa-check"></i> Custom workout plans</li>
+                            <li><i class="fas fa-check"></i> Advanced analytics</li>
+                            <li><i class="fas fa-check"></i> Diet consultation</li>
+                        </ul>
+                        <a href="#register" class="btn btn-primary btn-block">Start Pro Trial</a>
+                    </div>
+                    
+                    <div class="pricing-card">
+                        <div class="plan-badge">Trainer</div>
+                        <div class="plan-price">
+                            <span class="currency">₹</span>
+                            <span class="amount">999</span>
+                            <span class="period">/month</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li><i class="fas fa-check"></i> Client management</li>
+                            <li><i class="fas fa-check"></i> Unlimited workout plans</li>
+                            <li><i class="fas fa-check"></i> Progress monitoring</li>
+                            <li><i class="fas fa-check"></i> Business tools</li>
+                            <li><i class="fas fa-check"></i> Priority support</li>
+                        </ul>
+                        <a href="#register" class="btn btn-secondary btn-block">Become a Trainer</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="register" class="registration">
+            <div class="container">
+                <div class="registration-content">
+                    <div class="registration-info">
+                        <h2>Ready to Start Your Journey?</h2>
+                        <p>Join thousands of users who have transformed their fitness with FitTrack Pro.</p>
+                        
+                        <div class="testimonials">
+                            <div class="testimonial">
+                                <div class="testimonial-content">
+                                    <p>"FitTrack Pro helped me lose 20kg in 6 months. The progress tracking keeps me motivated!"</p>
+                                    <div class="testimonial-author">
+                                        <strong>Sarah J.</strong>
+                                        <span>Fitness Enthusiast</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="registration-form-container">
+                        <div class="form-card">
+                            <div class="form-header">
+                                <h3 id="form-title">Create Your Account</h3>
+                                <p id="form-subtitle">Start tracking your fitness journey today</p>
+                            </div>
+                            
+                            <!-- Account Type Selector -->
+                            <div class="account-type-selector">
+                                <div class="toggle-group">
+                                    <button type="button" class="toggle-btn active" id="client-toggle" data-role="client">
+                                        <i class="fas fa-user"></i>
+                                        <span>Join as Client</span>
+                                    </button>
+                                    <button type="button" class="toggle-btn" id="trainer-toggle" data-role="trainer">
+                                        <i class="fas fa-dumbbell"></i>
+                                        <span>Become a Trainer</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Client Registration Form -->
+                            <form class="registration-form" id="client-form" style="display: block;">
+                                <div class="form-group">
+                                    <label for="client-fullname">Full Name</label>
+                                    <input type="text" id="client-fullname" name="fullname" required placeholder="Enter your full name">
+                                    <div class="form-error" id="client-fullname-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="client-email">Email Address</label>
+                                    <input type="email" id="client-email" name="email" required placeholder="Enter your email">
+                                    <div class="form-error" id="client-email-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="client-password">Password</label>
+                                    <div class="password-input">
+                                        <input type="password" id="client-password" name="password" required minlength="6" placeholder="Create a strong password">
+                                        <button type="button" class="password-toggle">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-error" id="client-password-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="client-confirm-password">Confirm Password</label>
+                                    <input type="password" id="client-confirm-password" name="confirm-password" required placeholder="Confirm your password">
+                                    <div class="form-error" id="client-confirm-password-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="client-goal">Fitness Goal</label>
+                                    <select id="client-goal" name="goal" required>
+                                        <option value="">Select your primary goal</option>
+                                        <option value="weight_loss">Weight Loss</option>
+                                        <option value="muscle_gain">Muscle Gain</option>
+                                        <option value="fitness">General Fitness</option>
+                                        <option value="endurance">Endurance</option>
+                                        <option value="flexibility">Flexibility</option>
+                                    </select>
+                                    <div class="form-error" id="client-goal-error"></div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-block btn-large">
+                                    <span class="btn-text">Create Client Account</span>
+                                </button>
+                            </form>
+                            
+                            <!-- Trainer Registration Form -->
+                            <form class="registration-form" id="trainer-form" style="display: none;">
+                                <div class="form-group">
+                                    <label for="trainer-fullname">Full Name</label>
+                                    <input type="text" id="trainer-fullname" name="fullname" required placeholder="Enter your full name">
+                                    <div class="form-error" id="trainer-fullname-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-email">Email Address</label>
+                                    <input type="email" id="trainer-email" name="email" required placeholder="Enter your email">
+                                    <div class="form-error" id="trainer-email-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-password">Password</label>
+                                    <div class="password-input">
+                                        <input type="password" id="trainer-password" name="password" required minlength="6" placeholder="Create a strong password">
+                                        <button type="button" class="password-toggle">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-error" id="trainer-password-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-confirm-password">Confirm Password</label>
+                                    <input type="password" id="trainer-confirm-password" name="confirm-password" required placeholder="Confirm your password">
+                                    <div class="form-error" id="trainer-confirm-password-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-specialization">Specialization</label>
+                                    <select id="trainer-specialization" name="specialization" required>
+                                        <option value="">Select your specialization</option>
+                                        <option value="personal_training">Personal Training</option>
+                                        <option value="strength_conditioning">Strength & Conditioning</option>
+                                        <option value="yoga">Yoga & Pilates</option>
+                                        <option value="cardio_fitness">Cardio & Fitness</option>
+                                        <option value="nutrition">Nutrition & Diet</option>
+                                        <option value="rehabilitation">Rehabilitation</option>
+                                        <option value="sports_specific">Sports-Specific Training</option>
+                                        <option value="group_fitness">Group Fitness</option>
+                                    </select>
+                                    <div class="form-error" id="trainer-specialization-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-experience">Years of Experience</label>
+                                    <select id="trainer-experience" name="experience" required>
+                                        <option value="">Select experience level</option>
+                                        <option value="0-1">0-1 years</option>
+                                        <option value="2-3">2-3 years</option>
+                                        <option value="4-5">4-5 years</option>
+                                        <option value="6-10">6-10 years</option>
+                                        <option value="10+">10+ years</option>
+                                    </select>
+                                    <div class="form-error" id="trainer-experience-error"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="trainer-certification">Certifications (Optional)</label>
+                                    <textarea id="trainer-certification" name="certification" placeholder="List your fitness certifications, licenses, or qualifications..."></textarea>
+                                    <small style="color: var(--dark-text-tertiary); font-size: 0.875rem;">Examples: NASM-CPT, ACE, ACSM, etc.</small>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary btn-block btn-large">
+                                    <span class="btn-text">Create Trainer Account</span>
+                                </button>
+                            </form>
+                            
+                            <div class="form-footer">
+                                <p>Already have an account? <a href="/pages/login.html">Sign in here</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <div class="footer-brand">
+                            <i class="fas fa-dumbbell"></i>
+                            <span>FitTrack Pro</span>
+                        </div>
+                        <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+                        <div class="social-links">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Product</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                            <li><a href="/pages/login.html">Login</a></li>
+                            <li><a href="#register">Sign Up</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Contact</h4>
+                        <div class="contact-info">
+                            <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+                            <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-check-circle"></i>
+                <h3>Welcome to FitTrack Pro!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Your account has been created successfully. You can now log in and start your fitness journey!</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-primary" id="login-redirect">Go to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

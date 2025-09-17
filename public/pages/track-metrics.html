@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Track your health metrics and monitor your fitness progress with FitTrack Pro" />
+  <title>Track Metrics - FitTrack Pro</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-brand">
+          <i class="fas fa-dumbbell"></i>
+          <span>FitTrack Pro</span>
+        </a>
+        
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="log-workout.html" class="nav-link">Log Workout</a></li>
+          <li><a href="track-metrics.html" class="nav-link active">Track Metrics</a></li>
+          <li><a href="progress.html" class="nav-link">Progress</a></li>
+          <li><a href="trainer-panel.html" class="nav-link">Trainer Panel</a></li>
+          
+          <li class="nav-user">
+            <i id="user-photo" class="nav-user-avatar fas fa-user" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-color);"></i>
+            <div id="logout-menu" class="nav-user-dropdown">
+              <div class="nav-user-dropdown-item" id="user-name-display">
+                <i class="fas fa-user"></i>
+                <span>User</span>
+              </div>
+              <div class="nav-user-dropdown-divider"></div>
+              <button class="nav-user-dropdown-item danger" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Metrics Tracking Section -->
+    <section class="registration" style="padding-top: calc(var(--header-height) + var(--spacing-xl));">
+      <div class="container">
+        <div class="registration-content">
+          <div class="registration-info">
+            <h2>Track Your Health Metrics</h2>
+            <p>Monitor your key health indicators to track your fitness progress over time.</p>
+            
+            <div class="dashboard-card">
+              <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">
+                  <i class="fas fa-heartbeat"></i>
+                  Health Overview
+                </h3>
+              </div>
+              <div class="dashboard-stat">
+                <div class="dashboard-stat-value" id="total-metrics">-</div>
+                <div class="dashboard-stat-label">Recorded Entries</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="registration-form-container">
+            <div class="form-card">
+              <div class="form-header">
+                <h3>Record Health Metrics</h3>
+                <p>Enter your current health measurements</p>
+              </div>
+              
+              <form class="registration-form" id="metrics-form">
+                <div class="form-group">
+                  <label for="weight">Weight (kg)</label>
+                  <input type="number" id="weight" name="weight" required min="30" max="300" step="0.1" placeholder="e.g., 70.5">
+                  <div class="form-error" id="weight-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="height">Height (cm)</label>
+                  <input type="number" id="height" name="height" required min="100" max="250" step="0.1" placeholder="e.g., 175">
+                  <div class="form-error" id="height-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="body-fat">Body Fat Percentage (%)</label>
+                  <input type="number" id="body-fat" name="body-fat" min="5" max="50" step="0.1" placeholder="e.g., 15.2 (optional)">
+                  <div class="form-error" id="body-fat-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="bmi">BMI (calculated automatically)</label>
+                  <input type="number" id="bmi" name="bmi" readonly placeholder="BMI will be calculated">
+                  <small style="color: var(--gray-600); font-size: 0.875rem;">
+                    BMI is calculated from your weight and height
+                  </small>
+                </div>
+                
+                <div class="form-group">
+                  <label for="notes">Notes (optional)</label>
+                  <textarea id="notes" name="notes" placeholder="Add any additional notes about your measurements..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block btn-large">
+                  <i class="fas fa-save"></i>
+                  Save Metrics
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-dumbbell"></i>
+              <span>FitTrack Pro</span>
+            </div>
+            <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="log-workout.html">Log Workout</a></li>
+              <li><a href="track-metrics.html">Track Metrics</a></li>
+              <li><a href="progress.html">Progress</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <div class="contact-info">
+              <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script>
+    // Simple metrics tracking functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Metrics page loaded');
+      
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      console.log('Current user:', user);
+      
+      if (!user) {
+        alert('Please log in first');
+        window.location.href = '/pages/login.html';
+        return;
+      }
+      
+      // Update user display
+      const userDisplay = document.getElementById('user-name-display');
+      if (userDisplay) {
+        userDisplay.innerHTML = `
+          <i class="fas fa-user"></i>
+          <span>${user.fullname}</span>
+        `;
+      }
+      
+      // Load metrics stats
+      loadMetricsStats();
+      
+      // Handle BMI calculation
+      const weightField = document.getElementById('weight');
+      const heightField = document.getElementById('height');
+      const bmiField = document.getElementById('bmi');
+      
+      function calculateBMI() {
+        const weight = parseFloat(weightField.value);
+        const height = parseFloat(heightField.value);
+        
+        if (weight && height && weight > 0 && height > 0) {
+          const heightInMeters = height / 100;
+          const bmi = weight / (heightInMeters * heightInMeters);
+          bmiField.value = bmi.toFixed(1);
+        } else {
+          bmiField.value = '';
+        }
+      }
+      
+      if (weightField && heightField) {
+        weightField.addEventListener('input', calculateBMI);
+        heightField.addEventListener('input', calculateBMI);
+      }
+      
+      // Handle form submission
+      const form = document.getElementById('metrics-form');
+      if (form) {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          console.log('Metrics form submitted');
+          
+          const weight = document.getElementById('weight').value;
+          const height = document.getElementById('height').value;
+          const bodyFat = document.getElementById('body-fat').value || 0;
+          const bmi = document.getElementById('bmi').value;
+          const notes = document.getElementById('notes').value.trim();
+          
+          // Basic validation
+          if (!weight || !height || !bmi) {
+            alert('Please fill in weight and height fields');
+            return;
+          }
+          
+          const metricsData = {
+            weight: parseFloat(weight),
+            bmi: parseFloat(bmi),
+            fat: parseFloat(bodyFat) || 0,
+            date: new Date().toLocaleDateString(),
+            email: user.email,
+            notes: notes
+          };
+          
+          console.log('Sending metrics data:', metricsData);
+          
+          const submitButton = form.querySelector('button[type="submit"]');
+          submitButton.disabled = true;
+          submitButton.textContent = 'Saving...';
+          
+          try {
+            const response = await fetch('/api/auth/metrics', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(metricsData)
+            });
+            
+            console.log('Response status:', response.status);
+            const result = await response.json();
+            console.log('Response data:', result);
+            
+            if (response.ok && result.success) {
+              alert('Metrics saved successfully!');
+              form.reset();
+              loadMetricsStats();
+            } else {
+              alert('Error: ' + (result.msg || result.error || 'Failed to save metrics'));
+            }
+          } catch (error) {
+            console.error('Network error:', error);
+            alert('Network error: ' + error.message);
+          } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = `
+              <span class="btn-text">
+                <i class="fas fa-save"></i>
+                Save Metrics
+              </span>
+            `;
+          }
+        });
+      }
+    });
+    
+    async function loadMetricsStats() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return;
+      
+      try {
+        const response = await fetch(`/api/auth/metrics/${user.email}`);
+        const result = await response.json();
+        console.log('Metrics stats:', result);
+        
+        if (response.ok && result.success) {
+          const totalMetrics = result.metrics ? result.metrics.length : 0;
+          const totalMetricsElement = document.getElementById('total-metrics');
+          if (totalMetricsElement) {
+            totalMetricsElement.textContent = totalMetrics;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading metrics stats:', error);
+      }
+    }
+
+    // Legacy compatibility class - removed implementation
+    class MetricsTracker {
+      constructor() {
+        this.init();
+      }
+
+      init() {
+        this.loadUserData();
+        this.initializeForm();
+        this.loadMetricsStats();
+      }
+
+      loadUserData() {
+        const user = FitnessApp.Utils.storage.get('user');
+        if (!user) {
+          window.location.href = '/pages/login.html';
+          return;
+        }
+
+        // Update user display
+        const userDisplay = document.getElementById('user-name-display');
+        if (userDisplay) {
+          userDisplay.innerHTML = `
+            <i class="fas fa-user"></i>
+            <span>${user.fullname}</span>
+          `;
+        }
+      }
+
+      initializeForm() {
+        const form = document.getElementById('metrics-form');
+        if (!form) return;
+
+        const validationRules = {
+          'weight': { required: true, min: 30, max: 300 },
+          'height': { required: true, min: 100, max: 250 },
+          'body-fat': { min: 5, max: 50 }
+        };
+
+        // Real-time validation and BMI calculation
+        Object.keys(validationRules).forEach(fieldName => {
+          const field = form.querySelector(`#${fieldName}`);
+          if (field) {
+            field.addEventListener('blur', () => {
+              this.validateField(field, validationRules[fieldName]);
+              this.calculateBMI();
+            });
+            
+            field.addEventListener('input', () => {
+              this.calculateBMI();
+            });
+          }
+        });
+
+        // BMI calculation for weight and height changes
+        const weightField = document.getElementById('weight');
+        const heightField = document.getElementById('height');
+        
+        [weightField, heightField].forEach(field => {
+          if (field) {
+            field.addEventListener('input', () => this.calculateBMI());
+          }
+        });
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          await this.handleMetricsSubmission(form, validationRules);
+        });
+      }
+
+      calculateBMI() {
+        const weight = parseFloat(document.getElementById('weight').value);
+        const height = parseFloat(document.getElementById('height').value);
+        const bmiField = document.getElementById('bmi');
+        
+        if (weight && height && weight > 0 && height > 0) {
+          const heightInMeters = height / 100;
+          const bmi = weight / (heightInMeters * heightInMeters);
+          bmiField.value = bmi.toFixed(1);
+        } else {
+          bmiField.value = '';
+        }
+      }
+
+      validateField(field, rules) {
+        const value = field.value.trim();
+        const fieldName = field.name || field.id;
+        
+        // Clear previous validation
+        const formGroup = field.closest('.form-group');
+        formGroup.classList.remove('error', 'success');
+        
+        if (rules.required && !value) {
+          this.showFieldError(field, `${fieldName.replace('-', ' ')} is required`);
+          return false;
+        }
+        
+        if (value && rules.min && parseFloat(value) < rules.min) {
+          this.showFieldError(field, `Minimum value is ${rules.min}`);
+          return false;
+        }
+        
+        if (value && rules.max && parseFloat(value) > rules.max) {
+          this.showFieldError(field, `Maximum value is ${rules.max}`);
+          return false;
+        }
+        
+        if (value) {
+          formGroup.classList.add('success');
+        }
+        
+        return true;
+      }
+
+      showFieldError(field, message) {
+        const formGroup = field.closest('.form-group');
+        const errorElement = formGroup.querySelector('.form-error');
+        
+        formGroup.classList.add('error');
+        if (errorElement) {
+          errorElement.textContent = message;
+        }
+      }
+
+      async handleMetricsSubmission(form, validationRules) {
+        // Validate required fields
+        let isValid = true;
+        ['weight', 'height'].forEach(fieldName => {
+          const field = form.querySelector(`#${fieldName}`);
+          if (field && !this.validateField(field, validationRules[fieldName])) {
+            isValid = false;
+          }
+        });
+
+        // Validate optional body fat field
+        const bodyFatField = document.getElementById('body-fat');
+        if (bodyFatField.value) {
+          if (!this.validateField(bodyFatField, validationRules['body-fat'])) {
+            isValid = false;
+          }
+        }
+
+        if (!isValid) {
+          FitnessApp.Toast.error('Please fix the errors in the form');
+          return;
+        }
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading');
+        submitButton.disabled = true;
+
+        try {
+          const user = FitnessApp.Utils.storage.get('user');
+          const weight = parseFloat(document.getElementById('weight').value);
+          const height = parseFloat(document.getElementById('height').value);
+          const bodyFat = parseFloat(document.getElementById('body-fat').value) || null;
+          const bmi = parseFloat(document.getElementById('bmi').value);
+          
+          const metricsData = {
+            email: user.email,
+            date: new Date().toLocaleDateString(),
+            weight: weight,
+            bmi: bmi,
+            fat: bodyFat || 0, // Backend expects fat field
+            height: height,
+            notes: document.getElementById('notes').value.trim()
+          };
+
+          const result = await FitnessApp.API.metrics.create(metricsData);
+          
+          if (result.success) {
+            FitnessApp.Toast.success('Metrics saved successfully!');
+            form.reset();
+            
+            // Clear validation states
+            form.querySelectorAll('.form-group').forEach(group => {
+              group.classList.remove('success', 'error');
+            });
+            
+            // Refresh stats
+            this.loadMetricsStats();
+          } else {
+            FitnessApp.Toast.error(result.error || 'Failed to save metrics');
+          }
+        } catch (error) {
+          console.error('Metrics submission error:', error);
+          FitnessApp.Toast.error('An unexpected error occurred');
+        } finally {
+          submitButton.classList.remove('loading');
+          submitButton.disabled = false;
+        }
+      }
+
+      async loadMetricsStats() {
+        const user = FitnessApp.Utils.storage.get('user');
+        if (!user) return;
+
+        try {
+          const result = await FitnessApp.API.metrics.getByEmail(user.email);
+          if (result.success && result.data.metrics) {
+            const totalMetrics = result.data.metrics.length;
+            const totalMetricsElement = document.getElementById('total-metrics');
+            if (totalMetricsElement) {
+              totalMetricsElement.textContent = totalMetrics;
+            }
+          }
+        } catch (error) {
+          console.error('Error loading metrics stats:', error);
+        }
+      }
+    }
+
+    // Initialize metrics tracker when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        new MetricsTracker();
+      });
+    } else {
+      new MetricsTracker();
+    }
+  </script>
+</body>
+</html>

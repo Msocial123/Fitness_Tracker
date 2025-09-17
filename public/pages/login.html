@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign in to your FitTrack Pro account and continue your fitness journey" />
+  <title>Sign In - FitTrack Pro</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-brand">
+          <i class="fas fa-dumbbell"></i>
+          <span>FitTrack Pro</span>
+        </a>
+        
+        <ul class="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="/#features" class="nav-link">Features</a></li>
+          <li><a href="/#pricing" class="nav-link">Pricing</a></li>
+          <li><a href="login.html" class="nav-link active">Login</a></li>
+          <li><a href="/#register" class="nav-link btn-primary">Sign Up</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Login Section -->
+    <section class="registration">
+      <div class="container">
+        <div class="registration-content">
+          <div class="registration-info">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to continue your fitness journey and track your progress.</p>
+            
+            <div class="testimonials">
+              <div class="testimonial">
+                <div class="testimonial-content">
+                  <p>"FitTrack Pro keeps me motivated every day. The progress tracking is incredible!"</p>
+                  <div class="testimonial-author">
+                    <strong>Mike R.</strong>
+                    <span>Personal Trainer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="registration-form-container">
+            <div class="form-card">
+              <div class="form-header">
+                <h3>Sign In to Your Account</h3>
+                <p>Enter your credentials to continue</p>
+              </div>
+              
+              <form class="registration-form" id="login-form">
+                <div class="form-group">
+                  <label for="email-login">Email Address</label>
+                  <input type="email" id="email-login" name="email-login" required placeholder="Enter your email">
+                  <div class="form-error" id="email-login-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="password-login">Password</label>
+                  <div class="password-input">
+                    <input type="password" id="password-login" name="password-login" required minlength="6" placeholder="Enter your password">
+                    <button type="button" class="password-toggle" id="password-toggle-login">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <div class="form-error" id="password-login-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="role-login">Account Type</label>
+                  <select id="role-login" name="role-login" required>
+                    <option value="client">Client - Track my fitness</option>
+                    <option value="trainer">Trainer - Manage clients</option>
+                  </select>
+                  <div class="form-error" id="role-login-error"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block btn-large">
+                  <i class="fas fa-sign-in-alt"></i>
+                  Sign In
+                </button>
+              </form>
+              
+              <div class="form-footer">
+                <p>Don't have an account? <a href="/">Create one here</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-dumbbell"></i>
+              <span>FitTrack Pro</span>
+            </div>
+            <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="/#features">Features</a></li>
+              <li><a href="/#pricing">Pricing</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="/#register">Sign Up</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <div class="contact-info">
+              <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+              <p><i class="fas fa-map-marker-alt"></i> Mumbai, India</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

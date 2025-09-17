@@ -1,0 +1,224 @@
+---
+- name: Deploy Fitness Tracker Application
+  hosts: all
+  become: yes
+  vars:
+    app_name: fitness-tracker
+    docker_image: pulkit197/fitness-tracker
+    docker_tag: latest
+    app_port: 5000
+    mongodb_port: 27017
+    namespace: fitness-tracker
+    github_repo: https://github.com/pulkitsrivastava/fitness-tracker.git
+    mongodb_version: "7.0-jammy"
+ 
+  tasks:
+    - name: Update system packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+ 
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - curl
+          - git
+          - nodejs
+          - npm
+        state: present
+      when: ansible_os_family == "Debian"
+ 
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+ 
+    - name: Add user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: docker
+        append: yes
+ 
+    - name: Create application directory
+      file:
+        path: /opt/{{ app_name }}
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0755'
+ 
+    - name: Clone Fitness Tracker repository
+      git:
+        repo: "{{ github_repo }}"
+        dest: /opt/{{ app_name }}
+        version: master
+        force: yes
+      become_user: "{{ ansible_user }}"
+ 
+    - name: Install Node.js dependencies (Root)
+      npm:
+        path: /opt/{{ app_name }}
+        state: present
+        production: yes
+      become_user: "{{ ansible_user }}"
+ 
+    - name: Install Node.js dependencies (Server)
+      npm:
+        path: /opt/{{ app_name }}/server
+        state: present
+        production: yes
+      become_user: "{{ ansible_user }}"
+ 
+    - name: Create environment file
+      template:
+        src: fitness-tracker.env.j2
+        dest: /opt/{{ app_name }}/.env
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: '0644'
+ 
+    - name: Create Docker network for Fitness Tracker
+      docker_network:
+        name: "{{ app_name }}-network"
+        state: present
+ 
+    - name: Pull MongoDB Docker image
+      docker_image:
+        name: "mongo:{{ mongodb_version }}"
+        source: pull
+ 
+    - name: Pull Fitness Tracker Docker image
+      docker_image:
+        name: "{{ docker_image }}:{{ docker_tag }}"
+        source: pull
+ 
+    - name: Create MongoDB data volume
+      docker_volume:
+        name: "{{ app_name }}-mongodb-data"
+        state: present
+ 
+    - name: Run MongoDB container
+      docker_container:
+        name: "{{ app_name }}-mongodb"
+        image: "mongo:{{ mongodb_version }}"
+        state: started
+        restart_policy: always
+        networks:
+          - name: "{{ app_name }}-network"
+        ports:
+          - "{{ mongodb_port }}:27017"
+        env:
+          MONGO_INITDB_DATABASE: fitness-tracker
+        volumes:
+          - "{{ app_name }}-mongodb-data:/data/db"
+        healthcheck:
+          test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+          interval: 30s
+          timeout: 10s
+          retries: 3
+ 
+    - name: Wait for MongoDB to be ready
+      wait_for:
+        port: "{{ mongodb_port }}"
+        host: localhost
+        delay: 10
+        timeout: 60
+ 
+    - name: Run Fitness Tracker application container
+      docker_container:
+        name: "{{ app_name }}-app"
+        image: "{{ docker_image }}:{{ docker_tag }}"
+        state: started
+        restart_policy: always
+        networks:
+          - name: "{{ app_name }}-network"
+        ports:
+          - "{{ app_port }}:5000"
+        env:
+          MONGODB_URI: "mongodb://{{ app_name }}-mongodb:27017/fitness-tracker"
+          NODE_ENV: "production"
+          PORT: "5000"
+          HOST: "0.0.0.0"
+        depends_on:
+          - "{{ app_name }}-mongodb"
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+          interval: 30s
+          timeout: 10s
+          retries: 3
+ 
+    - name: Wait for Fitness Tracker application to be ready
+      wait_for:
+        port: "{{ app_port }}"
+        host: localhost
+        delay: 15
+        timeout: 120
+ 
+    - name: Test Fitness Tracker application endpoint
+      uri:
+        url: "http://localhost:{{ app_port }}/"
+        method: GET
+        status_code: 200
+      register: health_check
+      retries: 5
+      delay: 10
+      until: health_check.status == 200
+      ignore_errors: yes
+ 
+    - name: Test API endpoint
+      uri:
+        url: "http://localhost:{{ app_port }}/api/auth/test"
+        method: POST
+        body_format: json
+        body: {"test": "connection"}
+        status_code: 200
+      register: api_check
+      retries: 3
+      delay: 5
+      until: api_check.status == 200
+      ignore_errors: yes
+ 
+    - name: Display deployment status
+      debug:
+        msg: |
+          🏃‍♂️ FITNESS TRACKER DEPLOYMENT COMPLETE! 🏃‍♂️
+          
+          Application URL: http://{{ ansible_default_ipv4.address }}:{{ app_port }}
+          MongoDB URL: mongodb://{{ ansible_default_ipv4.address }}:{{ mongodb_port }}
+          Database Name: fitness-tracker
+          
+          Status Checks:
+          - Main App: {{ 'PASSED ✅' if health_check.status == 200 else 'FAILED ❌' }}
+          - API Endpoint: {{ 'PASSED ✅' if api_check.status == 200 else 'FAILED ❌' }}
+          
+          Available Pages:
+          - Home: http://{{ ansible_default_ipv4.address }}:{{ app_port }}/
+          - Login: http://{{ ansible_default_ipv4.address }}:{{ app_port }}/pages/login.html
+          - Dashboard: http://{{ ansible_default_ipv4.address }}:{{ app_port }}/pages/
+ 
+    - name: Create systemd service for Fitness Tracker
+      template:
+        src: fitness-tracker.service.j2
+        dest: /etc/systemd/system/fitness-tracker.service
+        owner: root
+        group: root
+        mode: '0644'
+      notify: reload systemd
+ 
+    - name: Enable and start Fitness Tracker service
+      systemd:
+        name: fitness-tracker
+        enabled: yes
+        state: started
+        daemon_reload: yes
+ 
+  handlers:
+    - name: reload systemd
+      systemd:
+        daemon_reload: yes
+ 
+ 

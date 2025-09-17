@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View your fitness progress and analytics with FitTrack Pro" />
+  <title>Progress - FitTrack Pro</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-brand">
+          <i class="fas fa-dumbbell"></i>
+          <span>FitTrack Pro</span>
+        </a>
+        
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="log-workout.html" class="nav-link">Log Workout</a></li>
+          <li><a href="track-metrics.html" class="nav-link">Track Metrics</a></li>
+          <li><a href="progress.html" class="nav-link active">Progress</a></li>
+          <li><a href="trainer-panel.html" class="nav-link">Trainer Panel</a></li>
+          
+          <li class="nav-user">
+            <i id="user-photo" class="nav-user-avatar fas fa-user" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-color);"></i>
+            <div id="logout-menu" class="nav-user-dropdown">
+              <div class="nav-user-dropdown-item" id="user-name-display">
+                <i class="fas fa-user"></i>
+                <span>User</span>
+              </div>
+              <div class="nav-user-dropdown-divider"></div>
+              <button class="nav-user-dropdown-item danger" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Progress Dashboard Section -->
+    <section style="padding-top: calc(var(--header-height) + var(--spacing-xl)); padding-bottom: var(--spacing-3xl);">
+      <div class="container">
+        <div class="section-header">
+          <h2>Your Fitness Progress</h2>
+          <p>Track your achievements and monitor your fitness journey</p>
+        </div>
+        
+        <!-- Stats Overview -->
+        <div class="dashboard-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--spacing-lg); margin-bottom: var(--spacing-2xl);">
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-dumbbell"></i>
+                Total Workouts
+              </h3>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-value" id="total-workouts">-</div>
+              <div class="dashboard-stat-label">Completed Sessions</div>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-fire"></i>
+                Calories Burned
+              </h3>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-value" id="total-calories">-</div>
+              <div class="dashboard-stat-label">Total Calories</div>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-clock"></i>
+                Total Time
+              </h3>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-value" id="total-duration">-</div>
+              <div class="dashboard-stat-label">Minutes Exercised</div>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-calendar-check"></i>
+                This Week
+              </h3>
+            </div>
+            <div class="dashboard-stat">
+              <div class="dashboard-stat-value" id="weekly-workouts">-</div>
+              <div class="dashboard-stat-label">Workouts This Week</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Charts and Data -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl); margin-bottom: var(--spacing-2xl);">
+          <!-- Workout Chart -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-chart-bar"></i>
+                Weekly Workout Duration
+              </h3>
+            </div>
+            <div style="padding: var(--spacing-lg);">
+              <canvas id="workoutChart" style="max-height: 300px;"></canvas>
+            </div>
+          </div>
+          
+          <!-- Metrics Overview -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-heartbeat"></i>
+                Health Metrics Overview
+              </h3>
+            </div>
+            <div style="padding: var(--spacing-lg);">
+              <div class="metrics-overview" id="metrics-overview">
+                <p style="color: var(--dark-text-secondary); text-align: center; padding: var(--spacing-xl);">
+                  <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: var(--spacing-sm); display: block;"></i>
+                  No metrics recorded yet. Start tracking your health data!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-2xl);">
+          <!-- Recent Workouts -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-history"></i>
+                Recent Workouts
+              </h3>
+            </div>
+            <div style="padding: var(--spacing-lg);">
+              <div id="workout-list" class="activity-list">
+                <p style="color: var(--dark-text-secondary); text-align: center; padding: var(--spacing-xl);">
+                  <i class="fas fa-dumbbell" style="font-size: 2rem; margin-bottom: var(--spacing-sm); display: block;"></i>
+                  No workouts recorded yet. Start logging your workouts!
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recent Metrics -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-header">
+              <h3 class="dashboard-card-title">
+                <i class="fas fa-chart-line"></i>
+                Recent Metrics
+              </h3>
+            </div>
+            <div style="padding: var(--spacing-lg);">
+              <div id="metrics-list" class="activity-list">
+                <p style="color: var(--dark-text-secondary); text-align: center; padding: var(--spacing-xl);">
+                  <i class="fas fa-chart-line" style="font-size: 2rem; margin-bottom: var(--spacing-sm); display: block;"></i>
+                  No metrics recorded yet. Start tracking your health data!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-dumbbell"></i>
+              <span>FitTrack Pro</span>
+            </div>
+            <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="log-workout.html">Log Workout</a></li>
+              <li><a href="track-metrics.html">Track Metrics</a></li>
+              <li><a href="progress.html">Progress</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <div class="contact-info">
+              <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script>
+    // Additional CSS for activity lists
+    const additionalCSS = `
+      .activity-list {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      
+      .activity-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        border-bottom: 1px solid var(--dark-border-color);
+        transition: background var(--transition-fast);
+      }
+      
+      .activity-item:hover {
+        background: var(--dark-bg-primary);
+      }
+      
+      .activity-item:last-child {
+        border-bottom: none;
+      }
+      
+      .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        color: var(--white);
+        flex-shrink: 0;
+      }
+      
+      .activity-icon.workout {
+        background: #3b82f6;
+      }
+      
+      .activity-icon.metrics {
+        background: #8b5cf6;
+      }
+      
+      .metric-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--dark-border-color);
+      }
+      
+      .metric-item:last-child {
+        border-bottom: none;
+      }
+      
+      .metric-label {
+        color: var(--dark-text-primary);
+        font-weight: 500;
+      }
+      
+      .metric-value {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+      
+      .activity-details {
+        flex: 1;
+      }
+      
+      .activity-title {
+        font-weight: var(--font-weight-medium);
+        color: var(--dark-text-primary);
+        margin-bottom: 2px;
+      }
+      
+      .activity-meta {
+        font-size: 0.875rem;
+        color: var(--dark-text-secondary);
+      }
+      
+      .metrics-overview {
+        display: grid;
+        gap: var(--spacing-md);
+      }
+      
+      .metric-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-sm) 0;
+        border-bottom: 1px solid var(--dark-border-color);
+      }
+      
+      .metric-item:last-child {
+        border-bottom: none;
+      }
+      
+      .metric-label {
+        color: var(--dark-text-primary);
+        font-weight: var(--font-weight-medium);
+      }
+      
+      .metric-value {
+        color: var(--primary-color);
+        font-weight: var(--font-weight-semibold);
+      }
+    `;
+    
+    // Add CSS to head
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = additionalCSS;
+    document.head.appendChild(styleSheet);
+
+    // Simple progress dashboard functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Progress page loaded');
+      
+      // Check if user is logged in
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      console.log('Current user:', user);
+      
+      if (!user) {
+        alert('Please log in first');
+        window.location.href = '/pages/login.html';
+        return;
+      }
+      
+      // Update user display
+      const userDisplay = document.getElementById('user-name-display');
+      if (userDisplay) {
+        userDisplay.innerHTML = `
+          <i class="fas fa-user"></i>
+          <span>${user.fullname}</span>
+        `;
+      }
+      
+      // Load progress data
+      loadProgressData();
+    });
+    
+    async function loadProgressData() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) return;
+      
+      console.log('Loading progress data for:', user.email);
+      
+      try {
+        // Load workouts and metrics in parallel
+        const [workoutsResponse, metricsResponse] = await Promise.all([
+          fetch(`/api/auth/workouts/${user.email}`),
+          fetch(`/api/auth/metrics/${user.email}`)
+        ]);
+        
+        console.log('Workouts response status:', workoutsResponse.status);
+        console.log('Metrics response status:', metricsResponse.status);
+        
+        const workoutsData = await workoutsResponse.json();
+        const metricsData = await metricsResponse.json();
+        
+        console.log('Workouts data:', workoutsData);
+        console.log('Metrics data:', metricsData);
+        
+        const workouts = (workoutsResponse.ok && workoutsData.success) ? workoutsData.workouts || [] : [];
+        const metrics = (metricsResponse.ok && metricsData.success) ? metricsData.metrics || [] : [];
+        
+        console.log('Processed workouts:', workouts);
+        console.log('Processed metrics:', metrics);
+        
+        updateStats(workouts, metrics);
+        renderWorkoutChart(workouts);
+        renderRecentWorkouts(workouts);
+        renderRecentMetrics(metrics);
+        renderMetricsOverview(metrics);
+        
+      } catch (error) {
+        console.error('Error loading progress data:', error);
+        alert('Error loading progress data: ' + error.message);
+      }
+    }
+
+    function updateStats(workouts, metrics) {
+      console.log('Updating stats with:', workouts.length, 'workouts and', metrics.length, 'metrics');
+      
+      // Total workouts
+      const totalWorkouts = workouts.length;
+      document.getElementById('total-workouts').textContent = totalWorkouts;
+
+      // Total calories
+      const totalCalories = workouts.reduce((sum, workout) => sum + (workout.calories || 0), 0);
+      document.getElementById('total-calories').textContent = totalCalories.toLocaleString();
+
+      // Total duration
+      const totalDuration = workouts.reduce((sum, workout) => sum + (workout.duration || 0), 0);
+      document.getElementById('total-duration').textContent = totalDuration.toLocaleString();
+
+      // Weekly workouts
+      const oneWeekAgo = new Date();
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      
+      const weeklyWorkouts = workouts.filter(workout => {
+        try {
+          const workoutDate = new Date(workout.date);
+          return workoutDate >= oneWeekAgo;
+        } catch (error) {
+          console.error('Error parsing date for weekly calculation:', workout.date);
+          return false;
+        }
+      }).length;
+      
+      document.getElementById('weekly-workouts').textContent = weeklyWorkouts;
+    }
+
+    function renderWorkoutChart(workouts) {
+      const ctx = document.getElementById('workoutChart');
+      if (!ctx) return;
+
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const weeklyData = Array(7).fill(0);
+
+      workouts.forEach(workout => {
+        try {
+          let dateObj;
+          if (workout.date.includes('/')) {
+            const [month, day, year] = workout.date.split('/');
+            dateObj = new Date(`${year}-${month}-${day}`);
+          } else {
+            dateObj = new Date(workout.date);
+          }
+          
+          const dayOfWeek = dateObj.getDay();
+          if (!isNaN(dayOfWeek) && dayOfWeek >= 0 && dayOfWeek <= 6) {
+            weeklyData[dayOfWeek] += workout.duration || 0;
+          }
+        } catch (error) {
+          console.error('Error parsing workout date:', workout.date, error);
+        }
+      });
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: daysOfWeek,
+          datasets: [{
+            label: 'Workout Duration (mins)',
+            data: weeklyData,
+            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+            borderColor: 'rgba(99, 102, 241, 1)',
+            borderWidth: 1,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: getComputedStyle(document.documentElement).getPropertyValue('--dark-text-secondary').trim()
+              },
+              grid: {
+                color: getComputedStyle(document.documentElement).getPropertyValue('--dark-border-color').trim()
+              }
+            },
+            x: {
+              ticks: {
+                color: getComputedStyle(document.documentElement).getPropertyValue('--dark-text-secondary').trim()
+              },
+              grid: {
+                display: false
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderRecentWorkouts(workouts) {
+      const workoutList = document.getElementById('workout-list');
+      if (!workoutList) return;
+
+      if (workouts.length === 0) {
+        workoutList.innerHTML = `
+          <p style="text-align: center; color: var(--dark-text-secondary); padding: 20px;">
+            <i class="fas fa-dumbbell" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+            No workouts logged yet. Start your fitness journey!
+          </p>
+        `;
+        return;
+      }
+
+      const recentWorkouts = workouts
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5);
+
+      workoutList.innerHTML = recentWorkouts.map(workout => `
+        <div class="activity-item">
+          <div class="activity-icon workout">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">${workout.type}</div>
+            <div class="activity-meta">
+              ${workout.duration} mins • ${workout.calories} cal • ${workout.date}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderRecentMetrics(metrics) {
+      const metricsList = document.getElementById('metrics-list');
+      if (!metricsList) return;
+
+      if (metrics.length === 0) {
+        metricsList.innerHTML = `
+          <p style="text-align: center; color: var(--dark-text-secondary); padding: 20px;">
+            <i class="fas fa-heartbeat" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+            No metrics recorded yet. Start tracking your health data!
+          </p>
+        `;
+        return;
+      }
+
+      const recentMetrics = metrics
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5);
+
+      metricsList.innerHTML = recentMetrics.map(metric => `
+        <div class="activity-item">
+          <div class="activity-icon metrics">
+            <i class="fas fa-heartbeat"></i>
+          </div>
+          <div class="activity-details">
+            <div class="activity-title">Health Check</div>
+            <div class="activity-meta">
+              Weight: ${metric.weight}kg • BMI: ${metric.bmi} • ${metric.date}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderMetricsOverview(metrics) {
+      const metricsOverview = document.getElementById('metrics-overview');
+      if (!metricsOverview) return;
+
+      if (metrics.length === 0) {
+        return; // Keep the default "no data" message
+      }
+
+      const latestMetric = metrics.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+      
+      metricsOverview.innerHTML = `
+        <div class="metric-item">
+          <span class="metric-label">Current Weight</span>
+          <span class="metric-value">${latestMetric.weight} kg</span>
+        </div>
+        <div class="metric-item">
+          <span class="metric-label">Current BMI</span>
+          <span class="metric-value">${latestMetric.bmi}</span>
+        </div>
+        ${latestMetric.fat ? `
+        <div class="metric-item">
+          <span class="metric-label">Body Fat</span>
+          <span class="metric-value">${latestMetric.fat}%</span>
+        </div>
+        ` : ''}
+        <div class="metric-item">
+          <span class="metric-label">Total Records</span>
+          <span class="metric-value">${metrics.length}</span>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

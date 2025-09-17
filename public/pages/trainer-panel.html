@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Manage clients and create workout plans with FitTrack Pro trainer panel" />
+  <title>Trainer Panel - FitTrack Pro</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+</head>
+<body>
+
+  <!-- Main Content -->
+  <div class="app-container">
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="/" class="nav-brand">
+          <i class="fas fa-dumbbell"></i>
+          <span>FitTrack Pro</span>
+        </a>
+        
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="/" class="nav-link">Home</a></li>
+          <li><a href="log-workout.html" class="nav-link">Log Workout</a></li>
+          <li><a href="track-metrics.html" class="nav-link">Track Metrics</a></li>
+          <li><a href="progress.html" class="nav-link">Progress</a></li>
+          <li><a href="trainer-panel.html" class="nav-link active">Trainer Panel</a></li>
+          
+          <li class="nav-user">
+            <i id="user-photo" class="nav-user-avatar fas fa-user" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-color);"></i>
+            <div id="logout-menu" class="nav-user-dropdown">
+              <div class="nav-user-dropdown-item" id="user-name-display">
+                <i class="fas fa-user"></i>
+                <span>User</span>
+              </div>
+              <div class="nav-user-dropdown-divider"></div>
+              <button class="nav-user-dropdown-item danger" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </button>
+            </div>
+          </li>
+        </ul>
+        
+        <div class="hamburger" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Trainer Panel Section -->
+    <section class="registration" style="padding-top: calc(var(--header-height) + var(--spacing-xl));">
+      <div class="container">
+        <div class="registration-content">
+          <div class="registration-info">
+            <h2>Trainer Dashboard</h2>
+            <p>Manage your clients and create personalized workout plans to help them achieve their fitness goals.</p>
+            
+            <div class="dashboard-card">
+              <div class="dashboard-card-header">
+                <h3 class="dashboard-card-title">
+                  <i class="fas fa-users"></i>
+                  Client Management
+                </h3>
+              </div>
+              <div class="dashboard-stat">
+                <div class="dashboard-stat-value" id="total-plans">-</div>
+                <div class="dashboard-stat-label">Active Plans</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="registration-form-container">
+            <div class="form-card">
+              <div class="form-header">
+                <h3>Create Workout Plan</h3>
+                <p>Assign a personalized workout plan to a client</p>
+              </div>
+              
+              <form class="registration-form" id="assign-plan-form">
+                <div class="form-group">
+                  <label for="client-name">Client Name</label>
+                  <input type="text" id="client-name" name="client-name" required placeholder="Enter client's name or email">
+                  <div class="form-error" id="client-name-error"></div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="workout-plan">Workout Plan</label>
+                  <textarea id="workout-plan" name="workout-plan" required placeholder="Enter detailed workout plan..." style="min-height: 120px;"></textarea>
+                  <div class="form-error" id="workout-plan-error"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block btn-large">
+                  <i class="fas fa-plus-circle"></i>
+                  Assign Plan
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Assigned Plans Section -->
+        <div class="section-header" style="margin-top: var(--spacing-3xl);">
+          <h2>Assigned Plans</h2>
+          <p>Manage and edit workout plans for your clients</p>
+        </div>
+        
+        <div id="plans-list" class="plans-container">
+          <p style="color: var(--dark-text-secondary); text-align: center; padding: var(--spacing-xl);">
+            <i class="fas fa-clipboard-list" style="font-size: 2rem; margin-bottom: var(--spacing-sm); display: block;"></i>
+            No workout plans created yet. Start creating plans for your clients!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-brand">
+              <i class="fas fa-dumbbell"></i>
+              <span>FitTrack Pro</span>
+            </div>
+            <p>Your personal companion to track workouts, monitor progress, and stay motivated on your fitness journey.</p>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="log-workout.html">Log Workout</a></li>
+              <li><a href="track-metrics.html">Track Metrics</a></li>
+              <li><a href="progress.html">Progress</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-section">
+            <h4>Contact</h4>
+            <div class="contact-info">
+              <p><i class="fas fa-envelope"></i> support@fittrackpro.com</p>
+              <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <p>&copy; 2025 FitTrack Pro. Built with ❤️ by Pulkit Srivastava</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script>
+    // Additional CSS for plans
+    const additionalCSS = `
+      .plans-container {
+        display: grid;
+        gap: var(--spacing-lg);
+        margin-top: var(--spacing-xl);
+      }
+      
+      .plan-card {
+        background: var(--dark-bg-secondary);
+        border: 1px solid var(--dark-border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        padding: var(--spacing-lg);
+        transition: all var(--transition-normal);
+      }
+      
+      .plan-card:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+      }
+      
+      .plan-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid var(--dark-border-color);
+      }
+      
+      .plan-client {
+        font-size: 1.1rem;
+        font-weight: var(--font-weight-semibold);
+        color: var(--dark-text-primary);
+        margin-bottom: var(--spacing-xs);
+      }
+      
+      .plan-date {
+        font-size: 0.875rem;
+        color: var(--dark-text-secondary);
+      }
+      
+      .plan-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+      
+      .plan-content {
+        white-space: pre-wrap;
+        line-height: 1.6;
+        color: var(--dark-text-primary);
+        margin-bottom: var(--spacing-lg);
+        background: var(--dark-bg-primary);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        border-left: 4px solid var(--primary-color);
+      }
+      
+      .plan-editing {
+        display: none;
+      }
+      
+      .plan-editing.active {
+        display: block;
+      }
+      
+      .plan-editing input,
+      .plan-editing textarea {
+        width: 100%;
+        padding: var(--spacing-sm);
+        border: 2px solid var(--gray-300);
+        border-radius: var(--radius-md);
+        font-family: var(--font-primary);
+        margin-bottom: var(--spacing-sm);
+      }
+      
+      .plan-editing textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      
+      .plan-editing-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        justify-content: flex-end;
+      }
+    `;
+    
+    // Add CSS to head
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = additionalCSS;
+    document.head.appendChild(styleSheet);
+
+    // Simple trainer panel functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Trainer panel loaded');
+      
+      // Check if user is logged in and is a trainer
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      console.log('Current user:', user);
+      
+      if (!user) {
+        alert('Please log in first');
+        window.location.href = '/pages/login.html';
+        return;
+      }
+      
+      if (user.role !== 'trainer') {
+        alert('Access denied. This page is for trainers only.');
+        window.location.href = '/pages/log-workout.html';
+        return;
+      }
+      
+      // Update user display
+      const userDisplay = document.getElementById('user-name-display');
+      if (userDisplay) {
+        userDisplay.innerHTML = `
+          <i class="fas fa-user"></i>
+          <span>${user.fullname}</span>
+        `;
+      }
+      
+      // Load plans
+      loadTrainerPlans();
+      
+      // Handle form submission
+      const form = document.getElementById('assign-plan-form');
+      if (form) {
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          console.log('Plan form submitted');
+          
+          const clientName = document.getElementById('client-name').value.trim();
+          const workoutPlan = document.getElementById('workout-plan').value.trim();
+          
+          // Basic validation
+          if (!clientName || !workoutPlan) {
+            alert('Please fill in both client name and workout plan');
+            return;
+          }
+          
+          const planData = {
+            trainer: user.email,
+            client: clientName,
+            plan: workoutPlan
+          };
+          
+          console.log('Sending plan data:', planData);
+          
+          const submitButton = form.querySelector('button[type="submit"]');
+          submitButton.disabled = true;
+          submitButton.textContent = 'Assigning...';
+          
+          try {
+            const response = await fetch('/api/auth/plans', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(planData)
+            });
+            
+            console.log('Response status:', response.status);
+            const result = await response.json();
+            console.log('Response data:', result);
+            
+            if (response.ok && result.success) {
+              alert('Workout plan assigned successfully!');
+              form.reset();
+              loadTrainerPlans();
+            } else {
+              alert('Error: ' + (result.msg || result.error || 'Failed to assign plan'));
+            }
+          } catch (error) {
+            console.error('Network error:', error);
+            alert('Network error: ' + error.message);
+          } finally {
+            submitButton.disabled = false;
+            submitButton.innerHTML = `
+              <span class="btn-text">
+                <i class="fas fa-plus-circle"></i>
+                Assign Plan
+              </span>
+            `;
+          }
+        });
+      }
+    });
+    
+    async function loadTrainerPlans() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user || user.role !== 'trainer') return;
+      
+      try {
+        const response = await fetch(`/api/auth/plans/${user.email}`);
+        const result = await response.json();
+        console.log('Trainer plans:', result);
+        
+        if (response.ok && result.success) {
+          const totalPlans = result.plans ? result.plans.length : 0;
+          const totalPlansElement = document.getElementById('total-plans');
+          if (totalPlansElement) {
+            totalPlansElement.textContent = totalPlans;
+          }
+          
+          // Display plans list (simplified version)
+          const plansList = document.getElementById('plans-list');
+          if (plansList && result.plans) {
+            if (result.plans.length === 0) {
+              plansList.innerHTML = `
+                <div style="text-align: center; color: var(--dark-text-secondary); padding: var(--spacing-2xl);">
+                  <i class="fas fa-clipboard-list" style="font-size: 3rem; margin-bottom: var(--spacing-md); display: block;"></i>
+                  <h3 style="margin-bottom: var(--spacing-sm); color: var(--dark-text-primary);">No workout plans yet</h3>
+                  <p>Create your first workout plan to get started with client management.</p>
+                </div>
+              `;
+            } else {
+              let plansHTML = '';
+              result.plans.forEach(plan => {
+                plansHTML += `
+                  <div class="plan-card">
+                    <div class="plan-header">
+                      <div>
+                        <div class="plan-client">${plan.client}</div>
+                        <div class="plan-date">Created: ${new Date().toLocaleDateString()}</div>
+                      </div>
+                    </div>
+                    <div class="plan-content">
+                      ${plan.plan}
+                    </div>
+                  </div>
+                `;
+              });
+              plansList.innerHTML = plansHTML;
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error loading trainer plans:', error);
+      }
+    }
+
+    // Legacy compatibility class - removed implementation
+    class TrainerPanel {
+      constructor() {
+        // Legacy compatibility - functionality moved to direct implementation above
+      }
+
+      validateField(field, rules) {
+        const value = field.value.trim();
+        const fieldName = field.name || field.id;
+        
+        // Clear previous validation
+        const formGroup = field.closest('.form-group');
+        formGroup.classList.remove('error', 'success');
+        
+        if (rules.required && !value) {
+          this.showFieldError(field, `${fieldName.replace('-', ' ')} is required`);
+          return false;
+        }
+        
+        if (rules.minLength && value.length < rules.minLength) {
+          this.showFieldError(field, `Minimum ${rules.minLength} characters required`);
+          return false;
+        }
+        
+        if (value) {
+          formGroup.classList.add('success');
+        }
+        
+        return true;
+      }
+
+      showFieldError(field, message) {
+        const formGroup = field.closest('.form-group');
+        const errorElement = formGroup.querySelector('.form-error');
+        
+        formGroup.classList.add('error');
+        if (errorElement) {
+          errorElement.textContent = message;
+        }
+      }
+
+      async handlePlanSubmission(form, validationRules) {
+        // Validate all fields
+        let isValid = true;
+        Object.keys(validationRules).forEach(fieldName => {
+          const field = form.querySelector(`#${fieldName}`);
+          if (field && !this.validateField(field, validationRules[fieldName])) {
+            isValid = false;
+          }
+        });
+
+        if (!isValid) {
+          FitnessApp.Toast.error('Please fix the errors in the form');
+          return;
+        }
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.classList.add('loading');
+        submitButton.disabled = true;
+
+        try {
+          const user = FitnessApp.Utils.storage.get('user');
+          const planData = {
+            trainer: user.email,
+            client: document.getElementById('client-name').value.trim(),
+            plan: document.getElementById('workout-plan').value.trim()
+          };
+
+          const result = await FitnessApp.API.plans.create(planData);
+          
+          if (result.success) {
+            FitnessApp.Toast.success('Workout plan assigned successfully!');
+            form.reset();
+            
+            // Clear validation states
+            form.querySelectorAll('.form-group').forEach(group => {
+              group.classList.remove('success', 'error');
+            });
+            
+            // Refresh plans
+            this.loadPlans();
+          } else {
+            FitnessApp.Toast.error(result.error || 'Failed to assign plan');
+          }
+        } catch (error) {
+          console.error('Plan submission error:', error);
+          FitnessApp.Toast.error('An unexpected error occurred');
+        } finally {
+          submitButton.classList.remove('loading');
+          submitButton.disabled = false;
+        }
+      }
+
+      async loadPlans() {
+        const user = FitnessApp.Utils.storage.get('user');
+        if (!user || user.role !== 'trainer') return;
+
+        const plansList = document.getElementById('plans-list');
+        if (!plansList) return;
+
+        try {
+          const result = await FitnessApp.API.plans.getByTrainer(user.email);
+          
+          if (result.success && result.data.plans && result.data.plans.length > 0) {
+            const plans = result.data.plans;
+            
+            // Update stats
+            const totalPlansElement = document.getElementById('total-plans');
+            if (totalPlansElement) {
+              totalPlansElement.textContent = plans.length;
+            }
+            
+            plansList.innerHTML = plans.map(plan => this.renderPlanCard(plan)).join('');
+            
+            // Add event listeners to buttons
+            this.attachPlanEventListeners();
+          } else {
+            plansList.innerHTML = `
+              <div style="text-align: center; color: var(--gray-600); padding: var(--spacing-2xl);">
+                <i class="fas fa-clipboard-list" style="font-size: 3rem; margin-bottom: var(--spacing-md); display: block;"></i>
+                <h3 style="margin-bottom: var(--spacing-sm);">No workout plans yet</h3>
+                <p>Create your first workout plan to get started with client management.</p>
+              </div>
+            `;
+            
+            const totalPlansElement = document.getElementById('total-plans');
+            if (totalPlansElement) {
+              totalPlansElement.textContent = '0';
+            }
+          }
+        } catch (error) {
+          console.error('Error loading plans:', error);
+          FitnessApp.Toast.error('Failed to load workout plans');
+        }
+      }
+
+      renderPlanCard(plan) {
+        return `
+          <div class="plan-card" data-plan-id="${plan._id}">
+            <div class="plan-header">
+              <div>
+                <div class="plan-client">${plan.client}</div>
+                <div class="plan-date">Created: ${FitnessApp.Utils.formatDate(new Date())}</div>
+              </div>
+              <div class="plan-actions">
+                <button class="btn btn-small btn-secondary edit-plan-btn" data-plan-id="${plan._id}">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+                <button class="btn btn-small btn-danger delete-plan-btn" data-plan-id="${plan._id}">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+            </div>
+            
+            <div class="plan-display" id="plan-display-${plan._id}">
+              <div class="plan-content">${plan.plan}</div>
+            </div>
+            
+            <div class="plan-editing" id="plan-editing-${plan._id}">
+              <input type="text" class="edit-client-input" value="${plan.client}" placeholder="Client name">
+              <textarea class="edit-plan-input" placeholder="Workout plan">${plan.plan}</textarea>
+              <div class="plan-editing-actions">
+                <button class="btn btn-small btn-secondary cancel-edit-btn" data-plan-id="${plan._id}">
+                  Cancel
+                </button>
+                <button class="btn btn-small btn-success save-plan-btn" data-plan-id="${plan._id}">
+                  <i class="fas fa-save"></i> Save
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      attachPlanEventListeners() {
+        // Edit buttons
+        document.querySelectorAll('.edit-plan-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const planId = e.target.closest('button').dataset.planId;
+            this.enterEditMode(planId);
+          });
+        });
+
+        // Delete buttons
+        document.querySelectorAll('.delete-plan-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const planId = e.target.closest('button').dataset.planId;
+            if (confirm('Are you sure you want to delete this workout plan?')) {
+              await this.deletePlan(planId);
+            }
+          });
+        });
+
+        // Save buttons
+        document.querySelectorAll('.save-plan-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const planId = e.target.closest('button').dataset.planId;
+            await this.savePlan(planId);
+          });
+        });
+
+        // Cancel buttons
+        document.querySelectorAll('.cancel-edit-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const planId = e.target.closest('button').dataset.planId;
+            this.exitEditMode(planId);
+          });
+        });
+      }
+
+      enterEditMode(planId) {
+        const displayElement = document.getElementById(`plan-display-${planId}`);
+        const editElement = document.getElementById(`plan-editing-${planId}`);
+        
+        if (displayElement && editElement) {
+          displayElement.style.display = 'none';
+          editElement.classList.add('active');
+        }
+      }
+
+      exitEditMode(planId) {
+        const displayElement = document.getElementById(`plan-display-${planId}`);
+        const editElement = document.getElementById(`plan-editing-${planId}`);
+        
+        if (displayElement && editElement) {
+          displayElement.style.display = 'block';
+          editElement.classList.remove('active');
+        }
+      }
+
+      async savePlan(planId) {
+        const editElement = document.getElementById(`plan-editing-${planId}`);
+        if (!editElement) return;
+
+        const clientInput = editElement.querySelector('.edit-client-input');
+        const planInput = editElement.querySelector('.edit-plan-input');
+        
+        const updatedData = {
+          client: clientInput.value.trim(),
+          plan: planInput.value.trim()
+        };
+
+        if (!updatedData.client || !updatedData.plan) {
+          FitnessApp.Toast.error('Both client name and workout plan are required');
+          return;
+        }
+
+        try {
+          const result = await FitnessApp.API.plans.update(planId, updatedData);
+          
+          if (result.success) {
+            FitnessApp.Toast.success('Workout plan updated successfully!');
+            this.loadPlans();
+          } else {
+            FitnessApp.Toast.error(result.error || 'Failed to update plan');
+          }
+        } catch (error) {
+          console.error('Error updating plan:', error);
+          FitnessApp.Toast.error('An unexpected error occurred');
+        }
+      }
+
+      async deletePlan(planId) {
+        try {
+          const result = await FitnessApp.API.plans.delete(planId);
+          
+          if (result.success) {
+            FitnessApp.Toast.success('Workout plan deleted successfully!');
+            this.loadPlans();
+          } else {
+            FitnessApp.Toast.error(result.error || 'Failed to delete plan');
+          }
+        } catch (error) {
+          console.error('Error deleting plan:', error);
+          FitnessApp.Toast.error('An unexpected error occurred');
+        }
+      }
+    }
+
+    // Initialize trainer panel when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        new TrainerPanel();
+      });
+    } else {
+      new TrainerPanel();
+    }
+  </script>
+</body>
+</html>

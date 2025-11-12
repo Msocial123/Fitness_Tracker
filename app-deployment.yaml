@@ -1,4 +1,4 @@
-# apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fitness-tracker-app
@@ -53,4 +53,4 @@ spec:
   ports:
   - port: 80
     targetPort: 5000
-  type: LoadBalancer
+  type: NodePort

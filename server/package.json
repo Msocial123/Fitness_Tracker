@@ -8,11 +8,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "express": "^5.1.0",
-    "mongoose": "^8.17.0",
+    "dd-trace": "^5.67.0",
     "dotenv": "^16.3.1",
-    "dd-trace": "^5.0.0"
-  }
+    "express": "^5.1.0",
+    "mongoose": "^8.17.0"
+  },
+  "devDependencies": {},
+  "description": ""
 }

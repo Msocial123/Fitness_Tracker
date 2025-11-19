@@ -20,6 +20,8 @@ spec:
         ports:
         - containerPort: 5000
         env:
+        - name: MONGODB_URI
+          value: "mongodb://mongodb-service:27017/fitness-tracker"
         - name: PORT
           value: "5000"
         - name: HOST

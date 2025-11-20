@@ -19,27 +19,29 @@ spec:
         image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
         ports:
         - containerPort: 5000
-        env:
-        - name: MONGODB_URI
-          valueFrom:
-            configMapKeyRef:
-              name: fitness-configmap
-              key: MONGODB_URI
-        - name: PORT
-          valueFrom:
-            configMapKeyRef:
-              name: fitness-configmap
-              key: PORT
-        - name: HOST
-          valueFrom:
-            configMapKeyRef:
-              name: fitness-configmap
-              key: HOST
-        - name: NODE_ENV
-          valueFrom:
-            configMapKeyRef:
-              name: fitness-configmap
-              key: NODE_ENV
+        envFrom:
+          - configMapRef:
+            name: fitness-configmap
+        #- name: MONGODB_URI
+          #valueFrom:
+            #configMapKeyRef:
+             # name: fitness-configmap
+             # key: MONGODB_URI
+        #- name: PORT
+          #valueFrom:
+            #configMapKeyRef:
+              #name: fitness-configmap
+              #key: PORT
+       # - name: HOST
+          #valueFrom:
+           # configMapKeyRef:
+           #   name: fitness-configmap
+           #   key: HOST
+        #- name: NODE_ENV
+         # valueFrom:
+           # configMapKeyRef:
+             # name: fitness-configmap
+             # key: NODE_ENV 
         # Datadog APM (tracing) env variables
         - name: DD_AGENT_HOST
           valueFrom:

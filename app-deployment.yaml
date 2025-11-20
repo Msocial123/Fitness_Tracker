@@ -21,14 +21,25 @@ spec:
         - containerPort: 5000
         env:
         - name: MONGODB_URI
-          value: "mongodb://mongodb-service:27017/fitness-tracker"
+          valueFrom:
+            configMapKeyRef:
+              name: fitness-configmap
+              key: MONGODB_URI
         - name: PORT
-          value: "5000"
+          valueFrom:
+            configMapKeyRef:
+              name: fitness-configmap
+              key: PORT
         - name: HOST
-          value: "0.0.0.0"
+          valueFrom:
+            configMapKeyRef:
+              name: fitness-configmap
+              key: HOST
         - name: NODE_ENV
-          value: "production"
-
+          valueFrom:
+            configMapKeyRef:
+              name: fitness-configmap
+              key: NODE_ENV
         # Datadog APM (tracing) env variables
         - name: DD_AGENT_HOST
           valueFrom:

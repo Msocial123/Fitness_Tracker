@@ -21,28 +21,18 @@ spec:
           image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
           ports:
             - containerPort: 5000
-          envFrom:
-            - configMapRef:
-                name: fitness-configmap
-          # Example of using configMapKeyRef for specific vars (uncomment if needed)
-          # env:
-          #   - name: MONGODB_URI
-          #     valueFrom:
-          #       configMapKeyRef:
-          #         name: fitness-configmap
-          #         key: MONGODB_URI
-          #   - name: PORT
-          #     valueFrom:
-          #       configMapKeyRef:
-          #         name: fitness-configmap
-          #         key: PORT
-          #   - name: NODE_ENV
-          #     valueFrom:
-          #       configMapKeyRef:
-          #         name: fitness-configmap
-          #         key: NODE_ENV
-          # Datadog APM (tracing) env variables
+          # ✔ All configMap vars removed
+          # ✔ Direct env variables added
           env:
+            - name: MONGODB_URI
+              value: "mongodb://mongodb-service:27017/fitness-tracker"
+            - name: PORT
+              value: "5000"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: NODE_ENV
+              value: "production"
+            # Datadog APM (tracing) env variables
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:

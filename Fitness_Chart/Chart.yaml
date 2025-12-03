@@ -1,0 +1,5 @@
+apiVersion: v2
+name: fintess-tracker 
+description: A Helm Chart for Fitness Tracker 
+version: 1.0.0 
+appVersion: "latest"

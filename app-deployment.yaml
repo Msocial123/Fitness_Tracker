@@ -28,7 +28,6 @@ spec:
                 name: fitness-configmap
             - configMapRef:
                 name: datadog-configmap
-
           # 🔥 Dynamic Datadog Agent Host
           env:
             - name: DD_AGENT_HOST

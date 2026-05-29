@@ -1,0 +1,16 @@
+# Apply with: kubectl apply -f eks/storageclass.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: gp3-ebs
+provisioner: ebs.csi.aws.com
+parameters:
+  type: gp3
+  fsType: ext4
+# Retain keeps the EBS volume (and its data) even if the PVC is deleted,
+# so data survives node failure / re-provisioning (Phase 8).
+reclaimPolicy: Retain
+# Bind the volume only once a pod is scheduled, so the EBS volume is
+# created in the same AZ as the pod that needs it.
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true

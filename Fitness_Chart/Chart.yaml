@@ -1,5 +1,6 @@
 apiVersion: v2
-name: fintess-tracker 
-description: A Helm Chart for Fitness Tracker 
-version: 1.0.0 
-appVersion: "latest"
+name: fitness-tracker
+description: A Helm chart for the Fitness Tracker app (Node.js + MongoDB on EKS)
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

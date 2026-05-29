@@ -1,0 +1,31 @@
+# Create with: eksctl create cluster -f eks/cluster.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: fitness-tracker-cluster
+  region: us-east-1
+  version: "1.30"
+
+# OIDC is required so the EBS CSI driver can assume an IAM role
+# to provision EBS volumes for our PersistentVolumeClaims.
+iam:
+  withOIDC: true
+
+managedNodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+    volumeSize: 20
+    # EBS CSI driver permissions for the worker nodes.
+    iam:
+      withAddonPolicies:
+        ebs: true
+
+# Managed EBS CSI driver addon (dynamic EBS volume provisioning).
+addons:
+  - name: aws-ebs-csi-driver
+    wellKnownPolicies:
+      ebsCSIController: true

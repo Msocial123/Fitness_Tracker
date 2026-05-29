@@ -1,0 +1,63 @@
+# =====================================================================
+# All configurable parameters are externalized here (Phase 9).
+# No hardcoded values live in the templates.
+# Override per environment with:  helm install ... -f my-values.yaml
+# =====================================================================
+
+# ----- Frontend / API application -----
+app:
+  name: fitness-tracker-app
+  replicas: 2
+  image:
+    repository: nanineelapu/fitness-tracker   # <- your Docker Hub image
+    tag: latest
+    pullPolicy: Always
+  containerPort: 5000
+  service:
+    name: fitness-tracker-service
+    type: LoadBalancer
+    port: 80
+    targetPort: 5000
+
+# ----- MongoDB (StatefulSet with EBS-backed persistence) -----
+mongodb:
+  name: mongodb
+  image:
+    repository: mongo
+    tag: 7-jammy
+    pullPolicy: IfNotPresent
+  port: 27017
+  database: fitness-tracker
+  service:
+    name: mongodb-service
+  persistence:
+    enabled: true
+    storageClassName: gp3-ebs
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    mountPath: /data/db
+
+# ----- StorageClass (EBS gp3 via the AWS EBS CSI driver) -----
+storageClass:
+  create: true
+  name: gp3-ebs
+  provisioner: ebs.csi.aws.com
+  type: gp3
+  fsType: ext4
+  reclaimPolicy: Retain
+  volumeBindingMode: WaitForFirstConsumer
+  allowVolumeExpansion: true
+
+# ----- Non-sensitive runtime config (rendered into a ConfigMap) -----
+config:
+  PORT: "5000"
+  HOST: "0.0.0.0"
+  NODE_ENV: "production"
+
+# ----- Datadog APM / tracing -----
+datadog:
+  enabled: true
+  env: production
+  service: fitness-tracker-app
+  version: "1.0.0"
+  traceAgentPort: "8126"

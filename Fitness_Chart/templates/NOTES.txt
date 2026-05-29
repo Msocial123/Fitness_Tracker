@@ -1,0 +1,15 @@
+{{ .Chart.Name }} {{ .Chart.Version }} deployed as release "{{ .Release.Name }}".
+
+App image : {{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}
+Replicas  : {{ .Values.app.replicas }}
+MongoDB   : {{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }} (StatefulSet, {{ .Values.mongodb.persistence.size }} on {{ .Values.mongodb.persistence.storageClassName }})
+
+Get the public URL of the app:
+
+  kubectl get svc {{ .Values.app.service.name }} \
+    -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+
+Verify persistent storage:
+
+  kubectl get pvc
+  kubectl get pv

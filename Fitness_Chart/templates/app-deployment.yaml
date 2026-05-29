@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: fitness-tracker-app
-          image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
+          image: nanineelapu/fitness_tracker-master-copy3-fitness-app:latest
           ports:
             - containerPort: 5000
           # ✔ All configMap vars removed

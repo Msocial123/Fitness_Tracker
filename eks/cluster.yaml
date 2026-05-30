@@ -4,7 +4,7 @@ kind: ClusterConfig
 
 metadata:
   name: fitness-tracker-cluster
-  region: us-east-1
+  region: ap-southeast-2
   version: "1.30"
 
 # OIDC is required so the EBS CSI driver can assume an IAM role

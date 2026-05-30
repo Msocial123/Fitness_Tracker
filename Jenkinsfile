@@ -7,7 +7,7 @@ pipeline {
         DOCKER_IMAGE = "pulkit197/fitness_tracker-master-copy3-fitness-app"
         DOCKER_TAG   = "${BUILD_NUMBER}"
         EKS_CLUSTER_NAME = "pulkit-cluster"
-        AWS_REGION = "us-east-1"
+        AWS_REGION = "ap-southeast-2"
     }
     stages {
         stage('Checkout') {

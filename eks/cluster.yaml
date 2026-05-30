@@ -3,7 +3,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: fitness-tracker-cluster
+  name: devops-cluster
   region: ap-southeast-2
   version: "1.30"
 

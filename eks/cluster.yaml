@@ -12,6 +12,16 @@ metadata:
 iam:
   withOIDC: true
 
+# VPC with BOTH public and private subnets across AZs (high availability).
+# A NAT gateway lets private worker nodes pull images / reach the internet
+# outbound, while staying unreachable from the internet inbound.
+vpc:
+  nat:
+    gateway: Single
+  clusterEndpoints:
+    publicAccess: true     # API reachable from your laptop too (set false for strict private-only)
+    privateAccess: true    # API reachable from inside the VPC (the bastion)
+
 managedNodeGroups:
   - name: ng-1
     instanceType: t3.medium
@@ -19,6 +29,8 @@ managedNodeGroups:
     minSize: 2
     maxSize: 3
     volumeSize: 20
+    # Place worker nodes in PRIVATE subnets (no public IP) — secure by default.
+    privateNetworking: true
     # EBS CSI driver permissions for the worker nodes.
     iam:
       withAddonPolicies:

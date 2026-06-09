@@ -1,0 +1,9 @@
+replicaCount: 2
+
+image:
+  repository: yash2172/fitness-tracker
+  tag: "v1.0.0"
+
+service:
+  type: LoadBalancer
+  port: 80

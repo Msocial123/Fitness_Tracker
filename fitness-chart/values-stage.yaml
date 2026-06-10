@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  tag: stage
+
+config:
+  nodeEnv: staging
+
+secret:
+  appEnv: staging
+
+datadog:
+  env: staging

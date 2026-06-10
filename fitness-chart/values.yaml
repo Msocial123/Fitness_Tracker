@@ -1,0 +1,36 @@
+replicaCount: 1
+
+image:
+  repository: himalayat/fitness_tracker-fitness-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 5000
+
+mongodb:
+  replicaCount: 1
+  image: mongo:7-jammy
+  servicePort: 27017
+
+config:
+  mongodbUri: mongodb://mongodb-service:27017/fitness-tracker
+  port: "5000"
+  host: "0.0.0.0"
+  nodeEnv: production
+
+secret:
+  appEnv: production
+  appName: fitness-tracker
+
+gateway:
+  gatewayClassName: envoy
+  gatewayName: fitness-gateway
+  routeName: fitness-route
+
+datadog:
+  service: fitness-tracker-app
+  version: "1.0.0"
+  env: production

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fitness-configmap
+
+data:
+  MONGODB_URI: {{ .Values.config.mongodbUri | quote }}
+  PORT: {{ .Values.config.port | quote }}
+  HOST: {{ .Values.config.host | quote }}
+  NODE_ENV: {{ .Values.config.nodeEnv | quote }}

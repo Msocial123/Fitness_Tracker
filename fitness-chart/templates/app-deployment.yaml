@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fitness-tracker-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: fitness-tracker-app
+  template:
+    metadata:
+      labels:
+        app: fitness-tracker-app
+      annotations:
+        ad.datadoghq.com/fitness-tracker-app.logs: >-
+          [{"source":"nodejs","service":"fitness-tracker-service"},
+           {"source":"nodejs","service":"fitness-tracker-app"}]
+    spec:
+      containers:
+      - name: fitness-tracker-app
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        ports:
+        - containerPort: 5000
+
+        env:
+        - name: MONGODB_URI
+          value: {{ .Values.config.mongodbUri | quote }}
+
+        - name: PORT
+          value: {{ .Values.config.port | quote }}
+
+        - name: HOST
+          value: {{ .Values.config.host | quote }}
+
+        - name: NODE_ENV
+          value: {{ .Values.config.nodeEnv | quote }}
+
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+
+        - name: DD_TRACE_AGENT_PORT
+          value: "8126"
+
+        - name: DD_ENV
+          value: {{ .Values.datadog.env | quote }}
+
+        - name: DD_SERVICE
+          value: {{ .Values.datadog.service | quote }}
+
+        - name: DD_VERSION
+          value: {{ .Values.datadog.version | quote }}

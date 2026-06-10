@@ -1,8 +1,30 @@
+version: "3.8"
+
 services:
   fitness-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fitness-app
+    ports:
+      - "3000:3000"
     environment:
       - NODE_ENV=development
+      - MONGO_URI=mongodb://mongodb:27017/fitness-tracker
     volumes:
       - ./server:/app/server
       - ./public:/app/public
-    command: ["npm", "run", "dev"]
+    depends_on:
+      - mongodb
+    command: ["npm", "run"]
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

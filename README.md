@@ -490,6 +490,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <p>Built with ❤️ by Pulkit Srivastava</p>
-  <p>⭐ Star this repo if you found it helpful!</p>
-</div>
+  <p>Built with ❤️ by Himalaya Tyagi</p>

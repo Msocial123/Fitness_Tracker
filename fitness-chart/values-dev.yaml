@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  tag: badimage
+  tag: dev
 
 config:
   nodeEnv: development

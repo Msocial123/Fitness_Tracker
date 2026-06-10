@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: fitness-tracker-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: fitness-tracker-app
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: fitness-tracker-app
-          image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
+          image: himalayat/fitness_tracker-fitness-app:latest
           ports:
             - containerPort: 5000
           # ✔ All configMap vars removed

@@ -3,8 +3,8 @@ name: Fitness Tracker CI
 on:
   push:
     branches:
-      - main
-      - develop
+      - master
+      - feature/setup-ci
 
   pull_request:
 

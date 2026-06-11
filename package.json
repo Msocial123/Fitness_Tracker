@@ -54,6 +54,7 @@
     "braces": "^3.0.3",
     "chokidar": "^3.6.0",
     "concat-map": "^0.0.1",
+    "dd-trace": "^5.106.0",
     "debug": "^4.4.1",
     "fill-range": "^7.1.1",
     "glob-parent": "^5.1.2",

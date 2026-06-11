@@ -1,0 +1,28 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"HTTPRoute","metadata":{"annotations":{},"name":"fitness-route","namespace":"default"},"spec":{"parentRefs":[{"name":"fitness-gateway"}],"rules":[{"backendRefs":[{"name":"fitness-service","port":80}]}]}}
+  creationTimestamp: "2026-06-10T10:22:35Z"
+  generation: 1
+  name: fitness-route
+  namespace: default
+  resourceVersion: "136392"
+  uid: 35352857-74c0-4f78-ad91-f42643d02944
+spec:
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: fitness-gateway
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: fitness-service
+      port: 80
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

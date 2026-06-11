@@ -1,0 +1,109 @@
+{"level":"info","ts":"2026-06-10T10:44:08Z","msg":"version","GitVersion":"v3.4.0","GitCommit":"3f1e9707ac4ce65504d72b425e82be5245b38e0e","BuildDate":"2026-06-03T00:34:07+0000"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"adding health check for controller"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"starting gateway route reconciler"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"adding readiness check for webhook"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"starting listener set reconciler"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/mutate-v1-pod"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/mutate-v1-pod-server-id"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/mutate-v1-service"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/validate-elbv2-k8s-aws-v1beta1-ingressclassparams"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/mutate-elbv2-k8s-aws-v1beta1-targetgroupbinding"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/validate-elbv2-k8s-aws-v1beta1-targetgroupbinding"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"controller-runtime.webhook","msg":"Registering webhook","path":"/validate-networking-v1-ingress"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"starting podInfo repo"}
+{"level":"info","ts":"2026-06-10T10:44:08Z","logger":"setup","msg":"starting deferred tgb reconciler"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"setup","msg":"starting collect cache size"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.metrics","msg":"Starting metrics server"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"setup","msg":"starting collect top talkers"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.metrics","msg":"Serving metrics server","bindAddress":":8080","secure":false}
+{"level":"info","ts":"2026-06-10T10:44:10Z","msg":"starting server","name":"health probe","addr":"[::]:61779"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.webhook","msg":"Starting webhook server"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.certwatcher","msg":"Updated current TLS certificate","cert":"/tmp/k8s-webhook-server/serving-certs/tls.crt","key":"/tmp/k8s-webhook-server/serving-certs/tls.key"}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.webhook","msg":"Serving webhook server","host":"","port":9443}
+{"level":"info","ts":"2026-06-10T10:44:10Z","logger":"controller-runtime.certwatcher","msg":"Starting certificate poll+watcher","cert":"/tmp/k8s-webhook-server/serving-certs/tls.crt","key":"/tmp/k8s-webhook-server/serving-certs/tls.key","interval":10}
+{"level":"info","ts":"2026-06-10T10:44:10Z","msg":"Attempting to acquire leader lease...","lock":"kube-system/aws-load-balancer-controller-leader"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Successfully acquired lease","lock":"kube-system/aws-load-balancer-controller-leader"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"kind source: *v1.IngressClass"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","source":"*k8s.TypedInformer[*sigs.k8s.io/aws-load-balancer-controller/pkg/k8s.PodInfo]"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"channel source: 0x15dd5c6c8f50"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"channel source: 0x15dd5c6c8fc0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"service","source":"kind source: *v1.Service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"kind source: *v1.Service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"channel source: 0x15dd5c6c92d0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.ListenerSet"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"channel source: 0x15dd5c6c9340"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"kind source: *v1beta1.IngressClassParams"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-loadbalancerconfiguration-controller","source":"kind source: *v1beta1.LoadBalancerConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","source":"kind source: *v1beta1.TargetGroupBinding"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","source":"kind source: *v1.Service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","source":"kind source: *v1.EndpointSlice"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","source":"kind source: *v1.Node"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"ingress","source":"kind source: *v1.Ingress"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.Gateway"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c6c9e30"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c778000"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.GatewayClass"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1beta1.LoadBalancerConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c778460"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c778540"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c7785b0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c778700"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c778770"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"channel source: 0x15dd5c7787e0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1beta1.TargetGroupConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1beta1.ListenerRuleConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.Service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1beta1.ReferenceGrant"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.HTTPRoute"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/alb","source":"kind source: *v1.GRPCRoute"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1.ListenerSet"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1.Gateway"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c98f0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9960"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1.GatewayClass"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1beta1.LoadBalancerConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9a40"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-gateway-class-controller","source":"kind source: *v1beta1.TargetGroupConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9ab0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9b20"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9b90"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"channel source: 0x15dd5c6c9c00"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1beta1.TargetGroupConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1.Service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1beta1.ReferenceGrant"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1alpha2.TCPRoute"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1alpha2.UDPRoute"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"gateway.k8s.aws/nlb","source":"kind source: *v1.TLSRoute"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-listenerruleconfiguration-controller","source":"channel source: 0x15dd5c7789a0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-gateway-class-controller","source":"kind source: *v1.GatewayClass"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-gateway-class-controller","source":"channel source: 0x15dd5c778850"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-gateway-class-controller","source":"channel source: 0x15dd5c7788c0"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-listenerruleconfiguration-controller","source":"kind source: *v1beta1.ListenerRuleConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-gateway-class-controller","source":"kind source: *v1beta1.LoadBalancerConfiguration"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting EventSource","controller":"aws-lbc-targetgroupconfiguration-controller","source":"kind source: *v1beta1.TargetGroupConfiguration"}
+{"level":"error","ts":"2026-06-10T10:45:52Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:45:52Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"TLSRoute.gateway.networking.k8s.io","error":"no matches for kind \"TLSRoute\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:45:52Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"service"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"service","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"aws-lbc-targetgroupconfiguration-controller"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"aws-lbc-targetgroupconfiguration-controller","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"aws-lbc-listenerruleconfiguration-controller"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"aws-lbc-listenerruleconfiguration-controller","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"aws-lbc-loadbalancerconfiguration-controller"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"aws-lbc-loadbalancerconfiguration-controller","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"aws-lbc-gateway-class-controller"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"aws-lbc-gateway-class-controller","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"ingress"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"ingress","worker count":3}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting Controller","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding"}
+{"level":"info","ts":"2026-06-10T10:45:52Z","msg":"Starting workers","controller":"targetGroupBinding","controllerGroup":"elbv2.k8s.aws","controllerKind":"TargetGroupBinding","worker count":3}
+{"level":"error","ts":"2026-06-10T10:46:02Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:02Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"TLSRoute.gateway.networking.k8s.io","error":"no matches for kind \"TLSRoute\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:02Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:12Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:12Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:12Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"TLSRoute.gateway.networking.k8s.io","error":"no matches for kind \"TLSRoute\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:22Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:22Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"TLSRoute.gateway.networking.k8s.io","error":"no matches for kind \"TLSRoute\" in version \"gateway.networking.k8s.io/v1\""}
+{"level":"error","ts":"2026-06-10T10:46:22Z","logger":"controller-runtime.source.Kind","msg":"if kind is a CRD, it should be installed before calling Start","kind":"ListenerSet.gateway.networking.k8s.io","error":"no matches for kind \"ListenerSet\" in version \"gateway.networking.k8s.io/v1\""}

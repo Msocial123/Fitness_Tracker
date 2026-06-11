@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  annotations:
+    elbv2.k8s.aws/last-processed-config: ""
+    elbv2.k8s.aws/last-processed-config-timestamp: "1781086847"
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"GatewayClass","metadata":{"annotations":{},"name":"aws"},"spec":{"controllerName":"gateway.k8s.aws/alb"}}
+  creationTimestamp: "2026-06-10T10:20:47Z"
+  finalizers:
+  - gateway.k8s.aws/gatewayclass
+  generation: 1
+  name: aws
+  resourceVersion: "136032"
+  uid: af48f8cb-4254-4f1e-aafd-1d060a966e86
+spec:
+  controllerName: gateway.k8s.aws/alb
+status:
+  conditions:
+  - lastTransitionTime: "2026-06-10T10:20:47Z"
+    message: Accepted
+    observedGeneration: 1
+    reason: Accepted
+    status: "True"
+    type: Accepted

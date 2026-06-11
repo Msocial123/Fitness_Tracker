@@ -1,39 +1,55 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mongodb
+  name: {{ .Values.mongodb.name }}
+  labels:
+    app: {{ .Values.mongodb.name }}
+    {{- include "fitness-tracker.labels" . | nindent 4 }}
 spec:
+  serviceName: {{ .Values.mongodb.service.name }}
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: {{ .Values.mongodb.name }}
   template:
     metadata:
       labels:
-        app: mongodb
+        app: {{ .Values.mongodb.name }}
     spec:
       containers:
-      - name: mongodb
-        image: mongo:7-jammy
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-        - name: mongodb-storage
-          mountPath: /data/db
-      volumes:
-      - name: mongodb-storage
-        emptyDir: {}
+        - name: {{ .Values.mongodb.name }}
+          image: "{{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }}"
+          imagePullPolicy: {{ .Values.mongodb.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.mongodb.port }}
+          volumeMounts:
+            - name: mongodb-storage
+              mountPath: {{ .Values.mongodb.persistence.mountPath }}
+  {{- if .Values.mongodb.persistence.enabled }}
+  # EBS-backed PVC per pod => data survives pod/node failure (Phase 8).
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-storage
+      spec:
+        accessModes:
+          - {{ .Values.mongodb.persistence.accessMode }}
+        storageClassName: {{ .Values.mongodb.persistence.storageClassName }}
+        resources:
+          requests:
+            storage: {{ .Values.mongodb.persistence.size }}
+  {{- end }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: {{ .Values.mongodb.service.name }}
+  labels:
+    app: {{ .Values.mongodb.name }}
+    {{- include "fitness-tracker.labels" . | nindent 4 }}
 spec:
+  clusterIP: None   # headless service for the StatefulSet
   selector:
-    app: mongodb
+    app: {{ .Values.mongodb.name }}
   ports:
-  - port: 27017
-    targetPort: 27017
-  type: ClusterIP
- 
- 
+    - port: {{ .Values.mongodb.port }}
+      targetPort: {{ .Values.mongodb.port }}

@@ -1,60 +1,72 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fitness-tracker-app
+  name: {{ .Values.app.name }}
+  labels:
+    app: {{ .Values.app.name }}
+    {{- include "fitness-tracker.labels" . | nindent 4 }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.app.replicas }}
   selector:
     matchLabels:
-      app: fitness-tracker-app
+      app: {{ .Values.app.name }}
   template:
     metadata:
       labels:
-        app: fitness-tracker-app
+        app: {{ .Values.app.name }}
       annotations:
-        ad.datadoghq.com/fitness-tracker-app.logs: >-
-          [{"source":"nodejs","service":"fitness-tracker-service"},
-           {"source":"nodejs","service":"fitness-tracker-app"}]
+        ad.datadoghq.com/{{ .Values.app.name }}.logs: >-
+          [{"source":"nodejs","service":"{{ .Values.app.service.name }}"},
+           {"source":"nodejs","service":"{{ .Values.app.name }}"}]
     spec:
       containers:
-        - name: fitness-tracker-app
-          image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.app.image.repository }}:{{ .Values.app.image.tag }}"
+          imagePullPolicy: {{ .Values.app.image.pullPolicy }}
           ports:
-            - containerPort: 5000
-          # ✔ All configMap vars removed
-          # ✔ Direct env variables added
+            - containerPort: {{ .Values.app.containerPort }}
           env:
+            # Non-sensitive config from the ConfigMap
+            {{- range $key := keys .Values.config }}
+            - name: {{ $key }}
+              valueFrom:
+                configMapKeyRef:
+                  name: fitness-configmap
+                  key: {{ $key }}
+            {{- end }}
+            # Sensitive connection string from the Secret
             - name: MONGODB_URI
-              value: "mongodb://mongodb-service:27017/fitness-tracker"
-            - name: PORT
-              value: "5000"
-            - name: HOST
-              value: "0.0.0.0"
-            - name: NODE_ENV
-              value: "production"
-            # Datadog APM (tracing) env variables
+              valueFrom:
+                secretKeyRef:
+                  name: fitness-secret
+                  key: MONGODB_URI
+            {{- if .Values.datadog.enabled }}
+            # Datadog APM (tracing)
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
             - name: DD_TRACE_AGENT_PORT
-              value: "8126"
+              value: {{ .Values.datadog.traceAgentPort | quote }}
             - name: DD_ENV
-              value: "production"
+              value: {{ .Values.datadog.env | quote }}
             - name: DD_SERVICE
-              value: "fitness-tracker-app"
+              value: {{ .Values.datadog.service | quote }}
             - name: DD_VERSION
-              value: "1.0.0"
---- 
-
+              value: {{ .Values.datadog.version | quote }}
+            {{- end }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: fitness-tracker-service
+  name: {{ .Values.app.service.name }}
+  labels:
+    app: {{ .Values.app.name }}
+    {{- include "fitness-tracker.labels" . | nindent 4 }}
 spec:
+  type: {{ .Values.app.service.type }}
   selector:
-    app: fitness-tracker-app
+    app: {{ .Values.app.name }}
   ports:
-  - port: 80
-    targetPort: 5000
-  type: LoadBalancer
+    - port: {{ .Values.app.service.port }}
+      targetPort: {{ .Values.app.service.targetPort }}

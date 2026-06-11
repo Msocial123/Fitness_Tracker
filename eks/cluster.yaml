@@ -1,0 +1,43 @@
+# Create with: eksctl create cluster -f eks/cluster.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: devops-cluster
+  region: ap-southeast-2
+  version: "1.30"
+
+# OIDC is required so the EBS CSI driver can assume an IAM role
+# to provision EBS volumes for our PersistentVolumeClaims.
+iam:
+  withOIDC: true
+
+# VPC with BOTH public and private subnets across AZs (high availability).
+# A NAT gateway lets private worker nodes pull images / reach the internet
+# outbound, while staying unreachable from the internet inbound.
+vpc:
+  nat:
+    gateway: Single
+  clusterEndpoints:
+    publicAccess: true     # API reachable from your laptop too (set false for strict private-only)
+    privateAccess: true    # API reachable from inside the VPC (the bastion)
+
+managedNodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+    volumeSize: 20
+    # Place worker nodes in PRIVATE subnets (no public IP) — secure by default.
+    privateNetworking: true
+    # EBS CSI driver permissions for the worker nodes.
+    iam:
+      withAddonPolicies:
+        ebs: true
+
+# Managed EBS CSI driver addon (dynamic EBS volume provisioning).
+addons:
+  - name: aws-ebs-csi-driver
+    wellKnownPolicies:
+      ebsCSIController: true

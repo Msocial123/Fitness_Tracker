@@ -1,0 +1,13 @@
+replicaCount: 2
+
+image:
+  tag: dev
+
+config:
+  nodeEnv: development
+
+secret:
+  appEnv: development
+
+datadog:
+  env: development

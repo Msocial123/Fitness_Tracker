@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  tag: prod
+
+config:
+  nodeEnv: production
+
+secret:
+  appEnv: production
+
+datadog:
+  env: production

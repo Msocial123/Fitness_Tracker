@@ -1,0 +1,129 @@
+name: Deploy dev
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: dev
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION || 'ap-south-1' }}
+      TF_IN_AUTOMATION: "true"
+      TF_INPUT: "false"
+      TF_VAR_budget_notification_email: ${{ vars.BUDGET_NOTIFICATION_EMAIL }}
+      TF_VAR_deploy_application: "true"
+      TF_VAR_state_bucket_name: ${{ vars.TF_STATE_BUCKET }}
+    steps:
+      - name: Verify required configuration
+        env:
+          AWS_DEPLOY_ROLE_ARN: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          BUDGET_NOTIFICATION_EMAIL: ${{ vars.BUDGET_NOTIFICATION_EMAIL }}
+          ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+          TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+        run: |
+          test -n "$AWS_DEPLOY_ROLE_ARN"
+          test -n "$BUDGET_NOTIFICATION_EMAIL"
+          test -n "$ECR_REPOSITORY_URL"
+          test -n "$TF_STATE_BUCKET"
+
+      - name: Checkout
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            server/package-lock.json
+
+      - name: Install and test
+        run: |
+          npm ci
+          npm ci --prefix server
+          npm run check
+          npm test
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502 # v5
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@d539f0932e70871a027e9d5a9d8fc38589180a64 # v2
+
+      - name: Check for an existing immutable image
+        id: existing
+        env:
+          ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+        run: |
+          repository_name="${ECR_REPOSITORY_URL#*/}"
+          if aws ecr describe-images --repository-name "$repository_name" --image-ids "imageTag=${GITHUB_SHA}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and push immutable image
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+        run: |
+          docker buildx build --platform linux/amd64 --provenance=false --push -f Dockerfile.lambda -t "$ECR_REPOSITORY_URL:${GITHUB_SHA}" .
+
+      - name: Resolve image digest
+        id: image
+        env:
+          ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+        run: |
+          repository_name="${ECR_REPOSITORY_URL#*/}"
+          digest=$(aws ecr describe-images --repository-name "$repository_name" --image-ids "imageTag=${GITHUB_SHA}" --query 'imageDetails[0].imageDigest' --output text)
+          test "$digest" != "None"
+          echo "uri=${ECR_REPOSITORY_URL}@${digest}" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce image scan gate
+        env:
+          ECR_REPOSITORY_URL: ${{ vars.ECR_REPOSITORY_URL }}
+        run: |
+          repository_name="${ECR_REPOSITORY_URL#*/}"
+          aws ecr wait image-scan-complete --repository-name "$repository_name" --image-id "imageTag=${GITHUB_SHA}"
+          critical=$(aws ecr describe-image-scan-findings --repository-name "$repository_name" --image-id "imageTag=${GITHUB_SHA}" --query 'imageScanFindings.findingSeverityCounts.CRITICAL || `0`' --output text)
+          high=$(aws ecr describe-image-scan-findings --repository-name "$repository_name" --image-id "imageTag=${GITHUB_SHA}" --query 'imageScanFindings.findingSeverityCounts.HIGH || `0`' --output text)
+          test "$critical" -eq 0
+          test "$high" -eq 0
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+        with:
+          terraform_version: 1.12.2
+
+      - name: Plan and apply
+        env:
+          TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+          TF_VAR_image_uri: ${{ steps.image.outputs.uri }}
+        run: |
+          cp infrastructure/backend.tf.example infrastructure/backend.tf
+          terraform -chdir=infrastructure init -backend-config="bucket=${TF_STATE_BUCKET}"
+          terraform -chdir=infrastructure plan -lock-timeout=5m -out=tfplan
+          terraform -chdir=infrastructure apply -lock-timeout=5m -auto-approve tfplan
+
+      - name: Smoke test
+        env:
+          TF_VAR_image_uri: ${{ steps.image.outputs.uri }}
+        run: |
+          health_url=$(terraform -chdir=infrastructure output -raw health_url)
+          curl --fail --retry 5 --retry-all-errors --retry-delay 5 "$health_url"

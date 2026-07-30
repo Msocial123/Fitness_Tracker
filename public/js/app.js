@@ -205,12 +205,13 @@ const Toast = {
     toast.innerHTML = `
       <div class="toast-content">
         <i class="${icons[type]}" style="margin-right: 8px;"></i>
-        <span class="toast-message">${message}</span>
+        <span class="toast-message"></span>
         <button class="toast-close" onclick="Toast.hide('${id}')">
           <i class="fas fa-times"></i>
         </button>
       </div>
     `;
+    toast.querySelector('.toast-message').textContent = message;
 
     Toast.container.appendChild(toast);
     

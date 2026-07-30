@@ -173,33 +173,8 @@ db.plans.createIndex({ 'trainer': 1 }, { name: 'plans_trainer_idx' });
 db.plans.createIndex({ 'client': 1 }, { name: 'plans_client_idx' });
 db.plans.createIndex({ 'trainer': 1, 'client': 1 }, { name: 'plans_trainer_client_idx' });
 
-// Insert sample data for testing (optional)
-print('🎯 Inserting sample data...');
-
-// Sample trainer user
-db.users.insertOne({
-  fullname: 'John Trainer',
-  email: 'john.trainer@fittrack.com',
-  password: 'trainer123',
-  role: 'trainer',
-  specialization: 'Weight Training',
-  experience: 'Intermediate',
-  certification: 'NASM-CPT'
-});
-
-// Sample client user
-db.users.insertOne({
-  fullname: 'Jane Client',
-  email: 'jane.client@fittrack.com',
-  password: 'client123',
-  role: 'client',
-  goal: 'Weight Loss'
-});
-
 print('✅ Fitness Tracker database initialized successfully!');
 print('📋 Collections created: users, workouts, metrics, plans');
 print('🔍 Indexes created for optimal performance');
-print('👥 Sample users created:');
-print('   - Trainer: john.trainer@fittrack.com / trainer123');
-print('   - Client: jane.client@fittrack.com / client123');
+print('🔐 No default users were created. Register users through the application.');
 print('🎉 Database ready for use!');

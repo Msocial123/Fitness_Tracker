@@ -371,10 +371,7 @@
       // Update user display
       const userDisplay = document.getElementById('user-name-display');
       if (userDisplay) {
-        userDisplay.innerHTML = `
-          <i class="fas fa-user"></i>
-          <span>${user.fullname}</span>
-        `;
+        userDisplay.querySelector('span').textContent = user.fullname;
       }
       
       // Load progress data
@@ -523,6 +520,14 @@
       });
     }
 
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[character]);
+
     function renderRecentWorkouts(workouts) {
       const workoutList = document.getElementById('workout-list');
       if (!workoutList) return;
@@ -547,9 +552,9 @@
             <i class="fas fa-dumbbell"></i>
           </div>
           <div class="activity-details">
-            <div class="activity-title">${workout.type}</div>
+            <div class="activity-title">${escapeHtml(workout.type)}</div>
             <div class="activity-meta">
-              ${workout.duration} mins • ${workout.calories} cal • ${workout.date}
+              ${escapeHtml(workout.duration)} mins • ${escapeHtml(workout.calories)} cal • ${escapeHtml(workout.date)}
             </div>
           </div>
         </div>
@@ -582,7 +587,7 @@
           <div class="activity-details">
             <div class="activity-title">Health Check</div>
             <div class="activity-meta">
-              Weight: ${metric.weight}kg • BMI: ${metric.bmi} • ${metric.date}
+              Weight: ${escapeHtml(metric.weight)}kg • BMI: ${escapeHtml(metric.bmi)} • ${escapeHtml(metric.date)}
             </div>
           </div>
         </div>
@@ -602,16 +607,16 @@
       metricsOverview.innerHTML = `
         <div class="metric-item">
           <span class="metric-label">Current Weight</span>
-          <span class="metric-value">${latestMetric.weight} kg</span>
+          <span class="metric-value">${escapeHtml(latestMetric.weight)} kg</span>
         </div>
         <div class="metric-item">
           <span class="metric-label">Current BMI</span>
-          <span class="metric-value">${latestMetric.bmi}</span>
+          <span class="metric-value">${escapeHtml(latestMetric.bmi)}</span>
         </div>
         ${latestMetric.fat ? `
         <div class="metric-item">
           <span class="metric-label">Body Fat</span>
-          <span class="metric-value">${latestMetric.fat}%</span>
+          <span class="metric-value">${escapeHtml(latestMetric.fat)}%</span>
         </div>
         ` : ''}
         <div class="metric-item">

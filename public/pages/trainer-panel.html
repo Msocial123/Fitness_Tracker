@@ -259,13 +259,20 @@
     styleSheet.textContent = additionalCSS;
     document.head.appendChild(styleSheet);
 
+    const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, character => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[character]);
+
     // Simple trainer panel functionality
     document.addEventListener('DOMContentLoaded', function() {
       console.log('Trainer panel loaded');
       
       // Check if user is logged in and is a trainer
       const user = JSON.parse(localStorage.getItem('user') || 'null');
-      console.log('Current user:', user);
       
       if (!user) {
         alert('Please log in first');
@@ -282,10 +289,7 @@
       // Update user display
       const userDisplay = document.getElementById('user-name-display');
       if (userDisplay) {
-        userDisplay.innerHTML = `
-          <i class="fas fa-user"></i>
-          <span>${user.fullname}</span>
-        `;
+        userDisplay.querySelector('span').textContent = user.fullname;
       }
       
       // Load plans
@@ -389,12 +393,12 @@
                   <div class="plan-card">
                     <div class="plan-header">
                       <div>
-                        <div class="plan-client">${plan.client}</div>
+                        <div class="plan-client">${escapeHtml(plan.client)}</div>
                         <div class="plan-date">Created: ${new Date().toLocaleDateString()}</div>
                       </div>
                     </div>
                     <div class="plan-content">
-                      ${plan.plan}
+                      ${escapeHtml(plan.plan)}
                     </div>
                   </div>
                 `;
@@ -549,7 +553,7 @@
           <div class="plan-card" data-plan-id="${plan._id}">
             <div class="plan-header">
               <div>
-                <div class="plan-client">${plan.client}</div>
+                <div class="plan-client">${escapeHtml(plan.client)}</div>
                 <div class="plan-date">Created: ${FitnessApp.Utils.formatDate(new Date())}</div>
               </div>
               <div class="plan-actions">
@@ -563,12 +567,12 @@
             </div>
             
             <div class="plan-display" id="plan-display-${plan._id}">
-              <div class="plan-content">${plan.plan}</div>
+              <div class="plan-content">${escapeHtml(plan.plan)}</div>
             </div>
             
             <div class="plan-editing" id="plan-editing-${plan._id}">
-              <input type="text" class="edit-client-input" value="${plan.client}" placeholder="Client name">
-              <textarea class="edit-plan-input" placeholder="Workout plan">${plan.plan}</textarea>
+              <input type="text" class="edit-client-input" value="${escapeHtml(plan.client)}" placeholder="Client name">
+              <textarea class="edit-plan-input" placeholder="Workout plan">${escapeHtml(plan.plan)}</textarea>
               <div class="plan-editing-actions">
                 <button class="btn btn-small btn-secondary cancel-edit-btn" data-plan-id="${plan._id}">
                   Cancel

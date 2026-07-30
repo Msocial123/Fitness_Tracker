@@ -188,10 +188,7 @@
       // Update user display
       const userDisplay = document.getElementById('user-name-display');
       if (userDisplay) {
-        userDisplay.innerHTML = `
-          <i class="fas fa-user"></i>
-          <span>${user.fullname}</span>
-        `;
+        userDisplay.querySelector('span').textContent = user.fullname;
       }
       
       // Load metrics stats
@@ -333,10 +330,7 @@
         // Update user display
         const userDisplay = document.getElementById('user-name-display');
         if (userDisplay) {
-          userDisplay.innerHTML = `
-            <i class="fas fa-user"></i>
-            <span>${user.fullname}</span>
-          `;
+          userDisplay.querySelector('span').textContent = user.fullname;
         }
       }
 

@@ -1,0 +1,9 @@
+FROM public.ecr.aws/lambda/nodejs:22
+
+COPY server/package*.json ${LAMBDA_TASK_ROOT}/
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY server ${LAMBDA_TASK_ROOT}/server
+COPY public ${LAMBDA_TASK_ROOT}/public
+
+CMD ["server/lambda.handler"]

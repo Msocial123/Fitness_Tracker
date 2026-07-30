@@ -1,12 +1,15 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: fitness-tracker-app
 spec:
-  replicas: 2
+  replicas: 3
+  revisionHistoryLimit: 2
+
   selector:
     matchLabels:
       app: fitness-tracker-app
+
   template:
     metadata:
       labels:
@@ -18,11 +21,10 @@ spec:
     spec:
       containers:
         - name: fitness-tracker-app
-          image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest
+          #image: pulkit197/fitness_tracker-master-copy3-fitness-app:latest    
+          image: elzfitness.azurecr.io/fitnessapp:latest
           ports:
             - containerPort: 5000
-          # ✔ All configMap vars removed
-          # ✔ Direct env variables added
           env:
             - name: MONGODB_URI
               value: "mongodb://mongodb-service:27017/fitness-tracker"
@@ -32,7 +34,8 @@ spec:
               value: "0.0.0.0"
             - name: NODE_ENV
               value: "production"
-            # Datadog APM (tracing) env variables
+
+            # Datadog APM
             - name: DD_AGENT_HOST
               valueFrom:
                 fieldRef:
@@ -45,6 +48,19 @@ spec:
               value: "fitness-tracker-app"
             - name: DD_VERSION
               value: "1.0.0"
+
+  strategy:
+    canary:
+      maxUnavailable: 0
+      maxSurge: 1
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 30s
+        - setWeight: 50
+        - pause:
+            duration: 60s
+        - setWeight: 100
 --- 
 
 apiVersion: v1
@@ -57,4 +73,4 @@ spec:
   ports:
   - port: 80
     targetPort: 5000
-  type: LoadBalancer
+  type: NodePort

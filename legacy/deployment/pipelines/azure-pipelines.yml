@@ -1,0 +1,71 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+ 
+pool:
+  vmImage: 'ubuntu-latest'
+ 
+variables:
+  imageRepository: 'fitnessapp'
+  imageTag: '$(Build.BuildId)'
+ 
+steps:
+ 
+# Install Node.js
+- task: NodeTool@0
+  displayName: 'Install Node.js'
+  inputs:
+    versionSpec: '20.x'
+ 
+# Install dependencies
+- script: |
+    npm install
+  displayName: 'Install Dependencies'
+ 
+# Build and Push Docker Image
+- task: Docker@2
+  displayName: 'Build and Push Docker Image'
+  inputs:
+    command: 'buildAndPush'
+    repository: '$(imageRepository)'
+    dockerfile: '**/Dockerfile'
+    containerRegistry: 'acr-connection' #add your azure container registry connection name
+    tags: |
+      $(imageTag)
+      latest
+ 
+# Deploy to AKS
+- task: KubernetesManifest@1
+  displayName: 'Deploy to AKS'
+  inputs:
+    action: 'deploy'
+    kubernetesServiceConnection: 'aks-connection' #add your azure  kubernetes connection name
+    namespace: default
+    manifests: |
+      k8s/app-deployment.yaml 
+      k8s/configmap.yml 
+      k8s/mongodb-deployment.yaml 
+    containers: |
+      elzfitness.azurecr.io/$(imageRepository):$(imageTag)    
+ 
+# Slack Notification
+- task: Bash@3
+  displayName: 'Slack Notification'
+  condition: always()
+  inputs:
+    targetType: 'inline'
+    script: |
+      if [ "$(Agent.JobStatus)" = "Succeeded" ]; then
+        MESSAGE="✅ Pipeline SUCCESS | Project: $(System.TeamProject) | Repo: $(Build.Repository.Name) | Branch: $(Build.SourceBranchName) | Build: $(Build.BuildNumber)"
+      else
+        MESSAGE="❌ Pipeline FAILED | Project: $(System.TeamProject) | Repo: $(Build.Repository.Name) | Branch: $(Build.SourceBranchName) | Build: $(Build.BuildNumber)"
+      fi
+ 
+      curl -X POST \
+        -H "Content-Type: application/json" \
+        --data "{\"text\":\"$MESSAGE\"}" \
+        "$SLACK_WEBHOOK_URL"
+  env:
+    SLACK_WEBHOOK_URL: $(SLACK_WEBHOOK_URL) 

@@ -1,19 +1,23 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "lambda.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "check": "node --check app.js && node --check local.js && node --check lambda.js && node --check config/runtime-secrets.js && node --check db/mongo.js && node --check routes/auth.js && node --check middleware/auth.js && node --check security/passwords.js && node --check security/tokens.js",
+    "test": "node test/security.test.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dd-trace": "^5.67.0",
+    "@aws-sdk/client-secrets-manager": "^3.1086.0",
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.3.1",
     "express": "^5.1.0",
-    "mongoose": "^8.17.0"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.0",
+    "serverless-http": "^3.2.0"
   },
-  "devDependencies": {},
   "description": ""
 }

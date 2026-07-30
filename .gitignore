@@ -1,2 +1,36 @@
-node_modules
+node_modules/
+
+# Local environment and secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Terraform local state, plans, and caches
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+terraform.tfvars
+*.auto.tfvars
+# Temporary until a verified Windows+Linux provider lock can be generated.
+infrastructure/**/.terraform.lock.hcl
+# Activated locally from backend.tf.example after the first stage creates the bucket.
+infrastructure/backend.tf
+
+# Test and runtime output
+coverage/
+logs/
+*.log
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Machine-local trust material
+.local/

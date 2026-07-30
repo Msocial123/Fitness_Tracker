@@ -2,13 +2,14 @@
   "name": "fitness-tracker",
   "version": "1.0.0",
   "description": "A comprehensive fitness tracking application for users and trainers",
-  "main": "server/app.js",
+  "main": "server/local.js",
   "scripts": {
-    "start": "node server/app.js",
-    "dev": "nodemon server/app.js",
+    "start": "node server/local.js",
+    "dev": "nodemon server/local.js",
     "install-server": "cd server && npm install",
     "setup": "npm run install-server",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "check": "npm --prefix server run check",
+    "test": "npm --prefix server test",
     "docker:build": "docker build -t fitness-tracker .",
     "docker:run": "docker run -p 5000:5000 --env-file .env fitness-tracker",
     "docker:stop": "docker stop fitness-tracker-app || true",
@@ -34,46 +35,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/fitness-tracker.git"
+    "url": "git+https://github.com/Elzabeth-L/Fitness_Tracker.git"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=22.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
   "bugs": {
-    "url": "https://github.com/your-username/fitness-tracker/issues"
+    "url": "https://github.com/Elzabeth-L/Fitness_Tracker/issues"
   },
-  "homepage": "https://github.com/your-username/fitness-tracker#readme",
-  "dependencies": {
-    "anymatch": "^3.1.3",
-    "balanced-match": "^1.0.2",
-    "binary-extensions": "^2.3.0",
-    "brace-expansion": "^1.1.12",
-    "braces": "^3.0.3",
-    "chokidar": "^3.6.0",
-    "concat-map": "^0.0.1",
-    "debug": "^4.4.1",
-    "fill-range": "^7.1.1",
-    "glob-parent": "^5.1.2",
-    "has-flag": "^3.0.0",
-    "ignore-by-default": "^1.0.1",
-    "is-binary-path": "^2.1.0",
-    "is-extglob": "^2.1.1",
-    "is-glob": "^4.0.3",
-    "is-number": "^7.0.0",
-    "minimatch": "^3.1.2",
-    "ms": "^2.1.3",
-    "normalize-path": "^3.0.0",
-    "picomatch": "^2.3.1",
-    "pstree.remy": "^1.1.8",
-    "readdirp": "^3.6.0",
-    "semver": "^7.7.2",
-    "simple-update-notifier": "^2.0.0",
-    "supports-color": "^5.5.0",
-    "to-regex-range": "^5.0.1",
-    "touch": "^3.1.1",
-    "undefsafe": "^2.0.5"
-  }
+  "homepage": "https://github.com/Elzabeth-L/Fitness_Tracker#readme"
 }

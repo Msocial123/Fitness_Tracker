@@ -1,16 +1,5 @@
-// Initialize Datadog tracing - must be imported and initialized FIRST
-const tracer = require('dd-trace').init({
-  service: process.env.DD_SERVICE || 'fitness-tracker',
-  env: process.env.DD_ENV || process.env.NODE_ENV || 'development',
-  version: process.env.DD_VERSION || '1.0.0',
-  logInjection: true,
-  runtimeMetrics: true
-});
-
-// Enhanced console logging for Datadog
 const originalLog = console.log;
 const originalError = console.error;
-const originalWarn = console.warn;
 
 console.log = function(...args) {
   const message = args.join(' ').replace(/"/g, '\"');
@@ -73,4 +62,4 @@ const logger = {
   }
 };
 
-module.exports = { tracer, logger };
+module.exports = { logger };

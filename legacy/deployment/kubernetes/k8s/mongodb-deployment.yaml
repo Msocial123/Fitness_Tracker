@@ -4,6 +4,11 @@ metadata:
   name: mongodb
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       app: mongodb
@@ -17,12 +22,22 @@ spec:
         image: mongo:7-jammy
         ports:
         - containerPort: 27017
-        volumeMounts:
-        - name: mongodb-storage
-          mountPath: /data/db
-      volumes:
-      - name: mongodb-storage
-        emptyDir: {}
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      #   volumeMounts:
+      #     - name: eli-data
+      #       mountPath: /data/db
+      # volumes:
+      #   - name: eli-data
+      #     persistentVolumeClaim:
+      #       claimName: mongo-pvc
+      
+
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,6 @@
+state_bucket_name         = "REPLACE-WITH-GLOBALLY-UNIQUE-BUCKET-NAME"
+budget_notification_email = "REPLACE-WITH-YOUR-EMAIL"
+monthly_budget_usd        = 5
+
+# First local apply: false. CI sets true after pushing the first ECR image.
+deploy_application = false

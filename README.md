@@ -1,5 +1,12 @@
 # FitTrack Pro - Professional Fitness Tracker
 
+> [!WARNING]
+> The current authentication implementation is not approved for public
+> deployment. Password hashing, server-side authentication/authorization, and
+> security regression tests must be completed first. See the
+> [serverless modernization documentation](docs/README.md) and
+> [implementation plan](docs/implementation-plan/README.md).
+
 <div align="center">
   <img src="./public/assets/logo.png" alt="FitTrack Pro Logo" width="120" height="120">
   
@@ -122,8 +129,8 @@ NODE_ENV=development
 # Database Configuration
 MONGODB_URI=mongodb://localhost:27017/fitness-tracker
 
-# Security (for production)
-JWT_SECRET=your-super-secret-jwt-key
+# Security (required locally; generate at least 32 random characters)
+JWT_SECRET=
 ```
 
 ### 5. Start the Application

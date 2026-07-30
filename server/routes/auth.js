@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { logger } = require('../datadog');
+const { requireAuth, requireRole, requireSelfParam } = require('../middleware/auth');
+const { hashPassword, verifyPassword } = require('../security/passwords');
+const { clearAuthCookie, setAuthCookie, signAuthToken } = require('../security/tokens');
 
 const router = express.Router();
 
@@ -8,7 +11,7 @@ const router = express.Router();
 const userSchema = new mongoose.Schema({
   fullname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   role: { type: String, enum: ['client', 'trainer'], default: 'client' },
   
   // Client-specific fields
@@ -55,22 +58,14 @@ const Plan = mongoose.model('Plan', planSchema);
 
 // Register
 router.post('/register', async (req, res) => {
-  // Log raw request for debugging
-  logger.info('REGISTER ENDPOINT HIT', {
-    method: req.method,
-    url: req.url,
-    body: req.body,
-    headers: req.headers,
-    action: 'register_endpoint_accessed'
-  });
-  
   logger.info('User registration attempt', {
     email: req.body.email,
     role: req.body.role,
     action: 'registration_started'
   });
   
-  const { fullname, email, password, role, goal, specialization, experience, certification } = req.body;
+  const { fullname, password, role, goal, specialization, experience, certification } = req.body;
+  const email = req.body.email?.trim().toLowerCase();
   
   // Basic validation for all users
   if (!fullname || !email || !password || !role) {
@@ -79,6 +74,10 @@ router.post('/register', async (req, res) => {
       missingFields: !fullname ? 'fullname' : !email ? 'email' : !password ? 'password' : 'role'
     });
     return res.status(400).json({ msg: 'Full name, email, password, and role are required' });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({ msg: 'Password must be at least 8 characters' });
   }
   
   // Role-specific validation
@@ -111,7 +110,7 @@ router.post('/register', async (req, res) => {
     const userData = {
       fullname,
       email,
-      password,
+      password: await hashPassword(password),
       role
     };
     
@@ -141,22 +140,14 @@ router.post('/register', async (req, res) => {
       error: err.message,
       action: 'registration_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Login
 router.post('/login', async (req, res) => {
-  // Log raw request for debugging
-  logger.info('LOGIN ENDPOINT HIT', {
-    method: req.method,
-    url: req.url,
-    body: req.body,
-    headers: req.headers,
-    action: 'login_endpoint_accessed'
-  });
-  
-  const { email, password, role } = req.body;
+  const { password, role } = req.body;
+  const email = req.body.email?.trim().toLowerCase();
   
   logger.info('User login attempt', {
     email,
@@ -174,8 +165,12 @@ router.post('/login', async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ email, password, role });
-    if (!user) {
+    const user = await User.findOne({ email, role }).select('+password');
+    const passwordResult = user
+      ? await verifyPassword(password, user.password)
+      : { valid: false, needsUpgrade: false };
+
+    if (!user || !passwordResult.valid) {
       logger.warn('Login failed - invalid credentials', {
         email,
         role,
@@ -183,6 +178,17 @@ router.post('/login', async (req, res) => {
       });
       return res.status(400).json({ msg: 'Invalid credentials or role' });
     }
+
+    if (passwordResult.needsUpgrade) {
+      user.password = await hashPassword(password);
+      await user.save();
+      logger.info('Legacy password hash upgraded', {
+        userId: user._id.toString(),
+        action: 'password_hash_upgraded'
+      });
+    }
+
+    setAuthCookie(res, signAuthToken(user));
 
     // Base response
     const response = {
@@ -216,13 +222,14 @@ router.post('/login', async (req, res) => {
       error: err.message,
       action: 'login_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Log workout
-router.post('/log-workout', async (req, res) => {
-  const { email, type, duration, calories, date, notes } = req.body;
+router.post('/log-workout', requireAuth, async (req, res) => {
+  const { type, duration, calories, date, notes } = req.body;
+  const email = req.user.email;
   
   logger.info('Workout logging attempt', {
     email,
@@ -269,12 +276,12 @@ router.post('/log-workout', async (req, res) => {
       error: err.message,
       action: 'workout_log_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Get workouts for progress page
-router.get('/workouts/:email', async (req, res) => {
+router.get('/workouts/:email', requireAuth, requireSelfParam('email'), async (req, res) => {
   logger.info('Fetching workouts', {
     email: req.params.email,
     action: 'workouts_fetch_started'
@@ -296,13 +303,14 @@ router.get('/workouts/:email', async (req, res) => {
       error: err.message,
       action: 'workouts_fetch_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Store metrics
-router.post('/metrics', async (req, res) => {
-  const { email, date, weight, bmi, fat } = req.body;
+router.post('/metrics', requireAuth, async (req, res) => {
+  const { date, weight, bmi, fat } = req.body;
+  const email = req.user.email;
   
   logger.info('Metrics storage attempt', {
     email,
@@ -349,12 +357,12 @@ router.post('/metrics', async (req, res) => {
       error: err.message,
       action: 'metrics_storage_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Get metrics for progress page
-router.get('/metrics/:email', async (req, res) => {
+router.get('/metrics/:email', requireAuth, requireSelfParam('email'), async (req, res) => {
   logger.info('Fetching metrics', {
     email: req.params.email,
     action: 'metrics_fetch_started'
@@ -376,13 +384,14 @@ router.get('/metrics/:email', async (req, res) => {
       error: err.message,
       action: 'metrics_fetch_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Assign a new plan
-router.post('/plans', async (req, res) => {
-  const { trainer, client, plan } = req.body;
+router.post('/plans', requireAuth, requireRole('trainer'), async (req, res) => {
+  const { client, plan } = req.body;
+  const trainer = req.user.email;
   
   logger.info('Plan assignment attempt', {
     trainer,
@@ -420,12 +429,12 @@ router.post('/plans', async (req, res) => {
       error: err.message,
       action: 'plan_assignment_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Get all plans assigned by a trainer
-router.get('/plans/:trainer', async (req, res) => {
+router.get('/plans/:trainer', requireAuth, requireRole('trainer'), requireSelfParam('trainer'), async (req, res) => {
   logger.info('Fetching trainer plans', {
     trainer: req.params.trainer,
     action: 'trainer_plans_fetch_started'
@@ -447,35 +456,47 @@ router.get('/plans/:trainer', async (req, res) => {
       error: err.message,
       action: 'trainer_plans_fetch_failed'
     });
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Edit a plan
-router.put('/plans/:id', async (req, res) => {
+router.put('/plans/:id', requireAuth, requireRole('trainer'), async (req, res) => {
   const { client, plan } = req.body;
   try {
-    await Plan.findByIdAndUpdate(req.params.id, { client, plan });
+    const updatedPlan = await Plan.findOneAndUpdate(
+      { _id: req.params.id, trainer: req.user.email },
+      { client, plan },
+      { new: true, runValidators: true }
+    );
+    if (!updatedPlan) {
+      return res.status(404).json({ msg: 'Plan not found' });
+    }
     res.json({ success: true, msg: 'Plan updated' });
   } catch (err) {
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Delete a plan
-router.delete('/plans/:id', async (req, res) => {
+router.delete('/plans/:id', requireAuth, requireRole('trainer'), async (req, res) => {
   try {
-    await Plan.findByIdAndDelete(req.params.id);
+    const deletedPlan = await Plan.findOneAndDelete({
+      _id: req.params.id,
+      trainer: req.user.email
+    });
+    if (!deletedPlan) {
+      return res.status(404).json({ msg: 'Plan not found' });
+    }
     res.json({ success: true, msg: 'Plan deleted' });
   } catch (err) {
-    res.status(500).json({ msg: 'Server error', error: err.message });
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
 // Test endpoint to verify server connectivity
-router.post('/test', (req, res) => {
+router.post('/test', requireAuth, (req, res) => {
   logger.info('Test endpoint accessed', {
-    requestBody: req.body,
     action: 'test_endpoint_hit'
   });
   res.json({ success: true, msg: 'Test endpoint working', receivedData: req.body });
@@ -483,7 +504,8 @@ router.post('/test', (req, res) => {
 
 // Logout (for localStorage-based auth, this is client-side)
 router.post('/logout', (req, res) => {
-  res.json({ msg: 'Logged out on client side. No server session stored.' });
+  clearAuthCookie(res);
+  res.json({ msg: 'Logged out successfully' });
 });
 
 module.exports = router;
